@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Recommendation App</title>
+		<link rel="stylesheet" href="https://necolas.github.io/normalize.css/3.0.2/normalize.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="./styles/main.css">
+		<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script src="./apps/app.js"></script>
+	</head>
+	<body>
+		<!--------------------------------------------- Navigation bar of the webpage ---------------------------------------------->
+		<nav>
+			<!-- Main navigation bar -->
+			<ul class="nav nav-pills" role="menu">
+				<li role="presentation"><a href="" role="menuitem" title="Get help">Help</a></li>
+				<li role="presentation" class="active"><a href="" role="menuitem" title="Get a recommendation">Search</a></li>
+				<li role="presentation"><a href="" role="menuitem" title="View recommendations">Recommendations</a></li>
+				<li role="presentation"><a href="" role="menuitem" title="View favorite recommendations">Favorites</a></li>
+				<li role="presentation"><a href="" role="menuitem" title="View previous activity">History</a></li>
+			</ul>
+			<!-- Mobile-friendly navigation bar -->
+			<div class="dropdown">
+				<button class="btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+					Menu <span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu" role="menu">
+					<li role="presentation"><a href="" role="menuitem" title="Get help">Help</a></li>
+					<li role="presentation" class="active"><a href="" role="menuitem" title="Get a recommendation">Search</a></li>
+					<li role="presentation"><a href="" role="menuitem" title="View recommendations">Recommendations</a></li>
+					<li role="presentation"><a href="" role="menuitem" title="View favorite recommendations">Favorites</a></li>
+					<li role="presentation"><a href="" role="menuitem" title="View previous activity">History</a></li>
+				</ul>
+			</div>
+		</nav>
+		<h1 id="title-header">Recommender App</h1>
+		<!------------------------------------------------- Sections of the webpage ---------------------------------------------->
+			<section id="help-section"></section>
+			<section id="search-section">
+				<h2 class="section-header">What do you want a recommendation for?</h2>
+				<form id="search-form">
+					<div>
+						<h3 title="Name or title of the item, person, or group">Name</h3> 
+						<input type="text" name="Name" placeholder="e.g., Game of Thrones" autofocus required>
+					</div>
+					<div>
+						<h3>Type of results returned</h3>
+						<select id="return-type" multiple>
+							<option value="all" selected>All</option>
+							<option value="authors">Authors</option>
+							<option value="books">Books</option>
+							<option value="games">Games</option>
+							<option value="movies">Movies</option>
+							<option value="musics">Music</option>
+							<option value="shows">Shows</option>
+						</select>
+					</div>
+					<div>
+						<h3>Max number of results returned</h3>
+						<select id="max-results">
+							<option value="5">5</option>
+							<option value="10">10</option>
+							<option value="20" selected>20</option>
+							<option value="50">50</option>
+						</select>
+					</div>
+					<button type="submit" value="Search"><i class="fa fa-search"></i> Search</button>
+				</form>
+			</section>
+			<section id="results-section">
+				<h2 class="section-header">The recommendations for your search</h2> 
+				<div class="results-container">			
+					<div class="result">
+						<ul class="nav nav-tabs result-nav" role="menu">
+							<li class="active" role="presentation"><a href="" role="menuitem" title="View the result's name and type">Main</a></li>
+							<li role="presentation"><a href="" role="menuitem" title="View the result's description">Description</a></li>
+							<li role="presentation"><a href="" role="menuitem" title="View a Wikipedia article and a YouTube clip about the result when available">Link(s)</a></li>
+						</ul>	
+						<div class="result-container">
+							<em class="result-type">Video</em>
+							<h3 class="result-name">adfa  leaef elawogf ralofero relarf oeda fgjaorf gajg lraofg ajrlg algroekgalg og ga ogr agol rj</h3>
+							<p class="result-description"></p>
+							<p class="wikiURL"><span class="fa fa-wikipedia-w" title="Wikipedia's logo"></span> <a target="_blank">Article</a></p>
+							<p class="ytURL"><span class="fa fa-youtube" title="YouTube's logo"></span> <a target="_blank">Video clip</a></p>
+						</div>
+						<hr>
+						<button type="button" name="Favorite" title="Add this recommendation as a favorite"><i class="fa fa-star"></i> Favorite</button>
+						<button type="button" name="Delete" title="Delete this recommendation"><i class="fa fa-trash"></i> Delete</button>
+					</div>
+					<div class="result">
+						<ul class="nav nav-tabs result-links">
+							<li"><a href="">Main</a></li>
+							<li><a href="">Description</a></li>
+							<li><a href="">Link(s)</a></li>
+						</ul>					
+						<p class="type"></p>
+						<p class="name"></p>
+						<p class="description"></p>
+						<p class="wikiURL"><i class="fa fa-wikipedia-w"></i> <a target="_blank">Article</a></p>
+						<p class="ytURL"><i class="fa fa-youtube"></i> <a target="_blank">Video clip</a></p>
+						<button type="button" name="Favorite"><i class="fa fa-star"></i> Favorite</button>
+						<button type="button" name="Delete"><i class="fa fa-trash"></i> Delete</button>
+					</div>
+					<div class="result">
+						<ul class="nav nav-tabs result-links">
+							<li><a href="">Main</a></li>
+							<li><a href="">Description</a></li>
+							<li><a href="">Link(s)</a></li>
+						</ul>					
+						<p class="type"></p>
+						<p class="name"></p>
+						<p class="description"></p>
+						<p class="wikiURL"><i class="fa fa-wikipedia-w"></i> <a target="_blank">Article</a></p>
+						<p class="ytURL"><i class="fa fa-youtube"></i> <a target="_blank">Video clip</a></p>
+						<button type="button" name="Favorite"><i class="fa fa-star"></i> Favorite</button>
+						<button type="button" name="Delete"><i class="fa fa-trash"></i> Delete</button>
+					</div>
+				</div> 
+			</section>
+			<section id="favorites-section">
+				<h2 class="section-header">Your favorite recommendations</h2>
+			</section> 
+			<section id="history-section">
+				<h2 class="section-header">Your previous searches</h2>
+				<ul id="search-list"></ul>
+			</section>
+		<!---------------------------------------------------------- Footer of the webpage ------------------------------------------------>
+		<footer>
+			<hr>
+			<p>This webpage uses recommendations provided by <a href="http://www.tastekid.com/read/api" target="_blank">TasteKid's API</a>, but 
+			this webpage is not affiliated with nor endorsed by TasteKid or any of the recommendations that are given. The recommendations are 
+			trademarked and copyrighted by their respective owners, not me.</p>
+		</footer>
+		<!------------------------------------------------------------ Hidden templates ---------------------------------------------------->
+		<div class="template">
+		</div>
+	</body>
+</html>

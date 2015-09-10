@@ -1,0 +1,195 @@
+/* ---------------------- Content ------------------
+	- Navigation bar styles
+		- Pills menu styles
+		- Drop-down menu styles 
+	- Section styles
+		- Helper section styles
+		- Search section styles
+		- Results section styles
+		- Favorites section styles
+		- History section styles
+	- Footer styles
+	- Media queries styles
+*/
+
+/* Navigation bar */
+nav {
+    padding: 0em 1em;
+    width: 100%;
+    margin: 0em auto;
+    position: fixed;
+    top: 0em;
+    z-index: 999;
+    border-bottom: 1px solid gray;
+	background-color: white;
+}
+
+/* Navigation bar with pills menu */
+ul.nav-pills {
+	padding: 0em;
+	margin: 0em; 
+}
+
+ul.nav-pills li{
+	width: 19.8%;
+	text-align: center; 
+	min-width: 10em; 
+	font-size: 1.3em; 
+}
+
+ul.nav-pills a {
+	color: #AB0404;
+}
+
+/* Navigation bar with drop-down menu */
+div.dropdown {
+    width: 5em;
+    margin: 0.7em auto;
+	display: none; 
+}
+
+/* Title style */ 
+#title-header {
+	text-align: center; 
+	letter-spacing: 2px; 
+	margin-top: 1.8em;
+}
+
+/* All sections styles */
+section {
+
+}
+
+/* Search section styles */
+.section-header {
+	margin: 1em; 
+	color: #AB0404; 
+}
+
+#search-form  {
+	width: 90%; 
+	min-width: 50em;
+	margin: 0em auto; 
+	padding: 2em;
+	border: 1px solid gray; 
+	text-align: center; 
+	overflow: hidden; 
+}
+
+#search-form div {
+	width: 32%;
+	display: inline-block; 
+	vertical-align: top;
+	padding-bottom: 2em; 
+}
+
+#search-form div h3 {
+	margin-top: 0; 
+}
+
+#search-form button {
+	margin: 2em; 
+	float: right; 
+	height: 5em;
+    width: 5em;
+    border-radius: 100%;
+    border: none;
+    font-weight: bold;
+}
+
+/* Results section styles */
+#results-section, 
+.results-container {
+	overflow: hidden;
+}
+
+.results-container {
+	padding: 0em 3em; 
+}
+
+.result {
+	width: 30%;
+	
+	min-width: 21em; 
+	display: inline-block; 
+	border: 1px solid black; 
+	margin: 2em 1em; 
+	padding: 0em 1em; 
+	float: left;
+}
+
+.result-container {
+	height: 10em;   
+	overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.result-type {
+	float: right;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.result button {
+	display: block;
+	margin: 0em auto 0.5em; 
+}
+
+/* Footer styles */
+footer {
+	padding: 3em; 
+}
+
+/* Media queries styles */
+@media only screen and (max-width: 1150px) {
+	.result:nth-child(even) {
+		float: right; 
+	}
+	
+	.result {
+		width: 45%;
+	}
+}
+
+@media only screen and (max-width: 1000px) {
+	ul.nav-pills {
+		display: none; 
+	}
+	div.dropdown {
+		display: block; 
+	}
+}
+
+@media only screen and (max-width: 750px) {
+	#search-form div {
+		display: block; 
+		width: 100%;
+	}
+	#search-form {
+		width: 80%; 
+		min-width: 0em;
+	}
+	#search-form button {
+		margin-top: 1em; 
+		float: none; 
+	}
+	.results-container {
+		padding: 0em 2em; 
+	}
+	.result, .result:nth-child(even) {
+		float: none; 
+		width: 60%; 
+		margin-left: auto;
+		margin-right: auto; 
+		display: block; 
+	}
+}
+
+@media only screen and (max-width: 350px) {
+	.results-container, .result {
+		padding: 0em 0.5em; 
+	}
+}
+
+
+
