@@ -1,5 +1,5 @@
 /* ---------------------- Content ------------------
-	- Common styles
+	- Common styles (that apply to multiple areas of the webpage)
 	- Navigation bar styles
 		- Pills menu styles
 		- Drop-down menu styles 
@@ -14,8 +14,8 @@
 */
 
 /* Common styles */
-#help-section, #results-section, #favorites-section, #history-section ,
-.description, .wikiURL, .ytURL, .delButton {
+#help-section, #results-section, #favorites-section, #history-section 
+.result-intro, .result-description, .result-links, button[name="Delete"] { /* These will change according to the user with JavaScript */
 	display: none; 
 }
 
@@ -125,7 +125,7 @@ section {
 	float: left;
 }
 
-.result-container {
+.result-intro, .result-description, .result-links {
 	height: 10em;   
 	overflow-y: auto;
     overflow-x: hidden;
@@ -138,8 +138,9 @@ section {
 }
 
 .result button {
-	display: block;
-	margin: 0em auto 0.5em; 
+	position: relative;
+	left: 35%; 
+	margin-bottom: 0.5em; 
 }
 
 /* Footer styles */
