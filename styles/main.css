@@ -1,4 +1,5 @@
 /* ---------------------- Content ------------------
+	- Common styles
 	- Navigation bar styles
 		- Pills menu styles
 		- Drop-down menu styles 
@@ -11,6 +12,12 @@
 	- Footer styles
 	- Media queries styles
 */
+
+/* Common styles */
+#help-section, #results-section, #favorites-section, #history-section ,
+.description, .wikiURL, .ytURL, .delButton {
+	display: none; 
+}
 
 /* Navigation bar */
 nav {
