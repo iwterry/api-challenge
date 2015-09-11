@@ -17,24 +17,28 @@
 		<nav>
 			<!-- Main navigation bar -->
 			<ul class="nav nav-pills" role="menu">
-				<li role="presentation"><a href="" role="menuitem" title="Get help">Help</a></li>
-				<li role="presentation" class="active"><a href="" role="menuitem" title="Get a recommendation">Search</a></li>
-				<li role="presentation"><a href="" role="menuitem" title="View recommendations">Recommendations</a></li>
-				<li role="presentation"><a href="" role="menuitem" title="View favorite recommendations">Favorites</a></li>
-				<li role="presentation"><a href="" role="menuitem" title="View previous activity">History</a></li>
+				<li class="help-link" role="presentation">
+					<a href="#help-section" role="menuitem" title="Get help">Help</a>
+				</li>
+				<li class="active search-link" role="presentation">
+					<a href="#search-section" role="menuitem" title="Get a recommendation">Search</a>
+				</li>
+				<li class="results-link" role="presentation">
+					<a href="#results-section" role="menuitem" title="View recommendations">Recommendations</a>
+				</li>
+				<li class="favorites-link" role="presentation">
+					<a href="#favorites-section" role="menuitem" title="View favorite recommendations">Favorites</a>
+				</li>
+				<li class="history-link" role="presentation">
+					<a href="#history-section" role="menuitem" title="View previous activity">History</a>
+				</li>
 			</ul>
 			<!-- Mobile-friendly navigation bar -->
 			<div class="dropdown">
 				<button class="btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
 					Menu <span class="caret"></span>
 				</button>
-				<ul class="dropdown-menu" role="menu">
-					<li role="presentation"><a href="" role="menuitem" title="Get help">Help</a></li>
-					<li role="presentation" class="active"><a href="" role="menuitem" title="Get a recommendation">Search</a></li>
-					<li role="presentation"><a href="" role="menuitem" title="View recommendations">Recommendations</a></li>
-					<li role="presentation"><a href="" role="menuitem" title="View favorite recommendations">Favorites</a></li>
-					<li role="presentation"><a href="" role="menuitem" title="View previous activity">History</a></li>
-				</ul>
+				<!-- The menu part of the dropdown version will be added using JavaScript ---> 
 			</div>
 		</nav>
 		<h1 id="title-header">Recommender App</h1>
