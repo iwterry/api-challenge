@@ -1,4 +1,4 @@
-/* ############################ About #######################
+/* ############################ About ####################### */
 /* This script contains functions for allowing for a dropdown menu and creating actions that should occur 
 when the user clicks different menu options. 
 
