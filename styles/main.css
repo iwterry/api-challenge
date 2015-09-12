@@ -14,7 +14,7 @@
 */
 
 /* Common styles */
-#help-section, #results-section, #favorites-section, #history-section 
+#help-section, #results-section, #favorites-section, #history-section, 
 .result-intro, .result-description, .result-links, button[name="Delete"] { /* These will change according to the user with JavaScript */
 	display: none; 
 }
@@ -116,7 +116,6 @@ section {
 
 .result {
 	width: 30%;
-	
 	min-width: 21em; 
 	display: inline-block; 
 	border: 1px solid black; 
@@ -201,3 +200,6 @@ footer {
 
 
 
+.template {
+	display: none; 
+}
