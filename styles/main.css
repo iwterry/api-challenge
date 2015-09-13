@@ -10,12 +10,13 @@
 		- Favorites section styles
 		- History section styles
 	- Footer styles
+	- .template styles
 	- Media queries styles
 */
 
 /* Common styles */
 #help-section, #results-section, #favorites-section, #history-section, 
-.result-intro, .result-description, .result-links, button[name="Delete"] { /* These will change according to the user with JavaScript */
+.result-description, .result-links, button[name="Delete"] { /* These will change according to the user with JavaScript */
 	display: none; 
 }
 
@@ -147,6 +148,11 @@ footer {
 	padding: 3em; 
 }
 
+/* .template styles */
+.template {
+	display: none; 
+}
+
 /* Media queries styles */
 @media only screen and (max-width: 1150px) {
 	.result:nth-child(even) {
@@ -196,10 +202,4 @@ footer {
 	.results-container, .result {
 		padding: 0em 0.5em; 
 	}
-}
-
-
-
-.template {
-	display: none; 
 }
