@@ -62,7 +62,7 @@ var showRecommendationInfoTransition = function(prevClickedMenuItem, currClicked
 /* Allow for transitioning of the display of sections elements, menu items, and recommedation information ,*/
 var enableTransitions = function() {
 	jq("nav li").click(function(event) {
-		/* Find previous and current active navigation menu item. */
+		// Find previous and current active navigation menu item. 
 		var currActive = jq("nav").find("." + jq(this).attr("class")),
 			prevActive = jq("nav").find(".active");
 			
@@ -72,8 +72,8 @@ var enableTransitions = function() {
 		showSectionTransition(prevActive, currActive);
 	}); 
 	
-	jq(".result li").click(function(event) {
-		/* Find previous and current active navigation menu item. */
+	jq(".results-container").on("click", ".result li", function(event) {
+		// Find previous and current active recommendation information menu item. 
 		var currActive = jq(this),
 			prevActive = jq(this).siblings(".active");
 			
@@ -82,4 +82,5 @@ var enableTransitions = function() {
 		showActiveMenuItemTransition(prevActive, currActive);
 		showRecommendationInfoTransition(prevActive, currActive);
 	});
+
 };
