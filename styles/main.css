@@ -6,7 +6,7 @@
 	- Section styles
 		- Helper section styles
 		- Search section styles
-		- Results section styles
+		- Recommendations section styles
 		- Favorites section styles
 		- History section styles
 	- Footer styles
@@ -15,7 +15,7 @@
 */
 
 /* Common styles */
-#help-section, #results-section, #favorites-section, #history-section, 
+#help-section, #recommendations-section, #favorites-section, #history-section, 
 .result-description, .result-links, button[name="Delete"] { /* These will change according to the user with JavaScript */
 	display: none; 
 }
@@ -105,8 +105,8 @@ section {
     font-weight: bold;
 }
 
-/* Results section styles */
-#results-section, 
+/* Recommendations section styles */
+#recommendations-section, 
 .results-container {
 	overflow: hidden;
 }
@@ -144,17 +144,22 @@ section {
 }
 
 /* Favorites section styles*/
-#results-settings {
+#results-settings-form {
     width: 46em;
     margin: 0em auto;
     text-align: center;
+	border: 2px solid #D8D8D8;
 }
 
-#results-settings select {
+#results-settings-form select {
     width: 11em; 
 	margin: 0em 2em;
     display: inline-block;
     vertical-align: top;
+}
+
+#results-settings-form button {
+	margin-top: 3em; 
 }
 
 /* Footer styles */
@@ -211,15 +216,16 @@ footer {
 		display: block; 
 	}
 	
-	#results-settings {
+	#results-settings-form {
 		width: 15em;
-		text-align: center;
 	}
 
-	#results-settings select {
-		margin: 1em 0em;
-		display: inline-block;
+	#results-settings-form select {
+		margin: 0em 0em 2em 0em;
 		vertical-align: baseline;
+	}
+	#results-settings-form button {
+		margin-top: 1em; 
 	}
 }
 

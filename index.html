@@ -25,7 +25,7 @@
 					<a href="#search-section" role="menuitem" title="Get a recommendation">Search</a>
 				</li>
 				<li class="nav-menu-item3" role="presentation">
-					<a href="#results-section" role="menuitem" title="View recommendations">Recommendations</a>
+					<a href="#recommendations-section" role="menuitem" title="View recommendations">Recommendations</a>
 				</li>
 				<li class="nav-menu-item4" role="presentation">
 					<a href="#favorites-section" role="menuitem" title="View favorite recommendations">Favorites</a>
@@ -73,18 +73,18 @@
 							<option value="50">50</option>
 						</select>
 					</div>
-					<button type="submit" value="Search"><i class="fa fa-search"></i> Search</button>
+					<button type="submit" value="search"><i class="fa fa-search"></i> Search</button>
 				</form>
 			</section>
-			<section id="results-section">
+			<section id="recommendations-section">
 				<h2 class="section-header">The recommendations for your search</h2> 
 				<div class="results-container">			
 				</div> 
 			</section>
 			<section id="favorites-section">
 				<h2 class="section-header">Your favorite recommendations</h2>
-				<p><button><span class="fa fa-plus-square"></span></button> Change how the recommendations are displayed</p>
-				<div id="results-settings">
+				<button type="button" name="Settings" title="Change how your favorites are viewed"><span class="fa fa-cog"></span> Show Settings</button> 
+				<form id="results-settings-form">
 					<select name="sort-results" title="Sort recommendations">
 						<option label="Sort by" value="" disabled selected>Sort by</option>
 						<option value="name-ascending">Name (Ascending)</option>
@@ -108,6 +108,7 @@
 						<option value="20">20</option>
 						<option value="50">50</option>
 					</select>
+					<button type="submit" value="submit">Submit</submit>
 				</div>
 				<div class="results-container">			
 				</div>
