@@ -83,6 +83,34 @@
 			</section>
 			<section id="favorites-section">
 				<h2 class="section-header">Your favorite recommendations</h2>
+				<p><button><span class="fa fa-plus-square"></span></button> Change how the recommendations are displayed</p>
+				<div id="results-settings">
+					<select name="sort-results" title="Sort recommendations">
+						<option label="Sort by" value="" disabled selected>Sort by</option>
+						<option value="name-ascending">Name (Ascending)</option>
+						<option value="name-descending">Name (Descending)</option>
+						<option value="added-ascending">Added (Ascending)</option>
+						<option value="added-descending">Added (Descending)</option>
+					</select>
+					<select name="filter-results" title="Filter recommendation by type" multiple>
+						<option label="Filter by" value="" disabled selected>Filter by</option>
+						<option value="author">Author</option>
+						<option value="book">Book</option>
+						<option value="game">Game</option>
+						<option value="movie">Movie</option>
+						<option value="music">Music</option>
+						<option value="show">Show</option>
+					</select>
+					<select name="limit-num-results" title="Limit number of recommendations per page">
+						<option label="Results per page" value="" disabled selected>Results per page</option>
+						<option value="5">5</option>
+						<option value="10">10</option>
+						<option value="20">20</option>
+						<option value="50">50</option>
+					</select>
+				</div>
+				<div class="results-container">			
+				</div>
 			</section> 
 			<section id="history-section">
 				<h2 class="section-header">Your previous searches</h2>

@@ -143,6 +143,20 @@ section {
 	margin-bottom: 0.5em; 
 }
 
+/* Favorites section styles*/
+#results-settings {
+    width: 46em;
+    margin: 0em auto;
+    text-align: center;
+}
+
+#results-settings select {
+    width: 11em; 
+	margin: 0em 2em;
+    display: inline-block;
+    vertical-align: top;
+}
+
 /* Footer styles */
 footer {
 	padding: 3em; 
@@ -195,6 +209,17 @@ footer {
 		margin-left: auto;
 		margin-right: auto; 
 		display: block; 
+	}
+	
+	#results-settings {
+		width: 15em;
+		text-align: center;
+	}
+
+	#results-settings select {
+		margin: 1em 0em;
+		display: inline-block;
+		vertical-align: baseline;
 	}
 }
 
