@@ -162,6 +162,15 @@ section {
 	margin-top: 3em; 
 }
 
+/* History section styles */ 
+li.activity {
+	list-style-type: none; 
+}
+
+li.activity:hover{
+	border: 1px dotted black; 
+}
+
 /* Footer styles */
 footer {
 	padding: 3em; 

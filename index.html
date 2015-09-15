@@ -93,6 +93,7 @@
 						<option value="added-descending">Added (Descending)</option>
 					</select>
 					<select name="filter-results" title="Filter recommendation by type" multiple>
+						<option value="">Remove any filter(s)</option>
 						<option label="Filter by" value="" disabled selected>Filter by</option>
 						<option value="author">Author</option>
 						<option value="book">Book</option>
@@ -108,14 +109,30 @@
 						<option value="20">20</option>
 						<option value="50">50</option>
 					</select>
-					<button type="submit" value="submit">Submit</submit>
-				</div>
+					<button type="submit" value="submit">Submit</button>
+				</form>
 				<div class="results-container">			
 				</div>
 			</section> 
 			<section id="history-section">
-				<h2 class="section-header">Your previous searches</h2>
-				<ul id="search-list"></ul>
+				<h2 class="section-header">Your previous activities</h2>
+				<span>Activity Type:</span>
+				<select name="activity-type">
+					<option value="all">All</option>
+					<option value="deletes">Deletes</option>
+					<option value="favorites">Favorites</option>
+					<option value="searches">Searches</option>
+				</select>
+				<ul id="activity-list">
+					<li class="activity">
+						<button type="button" name="remove"><span class="fa fa-trash"></span></button>
+						<strong>Activity Type:</strong> <span class="type-of-activity">1</span> <strong>Description of Activity:</strong> <span class="description-of-activity">2</span>
+					</li>
+					<li class="activity">
+						<button type="button" name="remove"><span class="fa fa-trash"></span></button>
+						<strong>Activity Type:</strong> <span class="type-of-activity">1</span> <strong>Description of Activity:</strong> <span class="description-of-activity">2</span>
+					</li>
+				</ul>
 			</section>
 		<!---------------------------------------------------------- Footer of the webpage ------------------------------------------------>
 		<footer>
