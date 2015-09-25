@@ -15,13 +15,13 @@
 	</head>
 	<body>
 		<!--------------------------------------------- Navigation bar of the webpage ---------------------------------------------->
-		<nav>
+		<nav id="webpage-nav">
 			<!-- Main navigation bar -->
 			<ul class="nav nav-pills" role="menu">
-				<li class="nav-menu-item1" role="presentation">
+				<li class="active nav-menu-item1" role="presentation">
 					<a href="#help-section" role="menuitem" title="Get help">Help</a>
 				</li>
-				<li class="active nav-menu-item2" role="presentation">
+				<li class="nav-menu-item2" role="presentation">
 					<a href="#search-section" role="menuitem" title="Get a recommendation">Search</a>
 				</li>
 				<li class="nav-menu-item3" role="presentation">
@@ -44,7 +44,9 @@
 		</nav>
 		<h1 id="title-header">Recommender App</h1>
 		<!------------------------------------------------- Sections of the webpage ---------------------------------------------->
-			<section id="help-section"></section>
+			<section id="help-section">
+				<h2 class="section-header">Get help with the webpage</h2>
+			</section>
 			<section id="search-section">
 				<h2 class="section-header">What do you want a recommendation for?</h2>
 				<form id="search-form">
@@ -54,8 +56,8 @@
 					</div>
 					<div>
 						<h3>Type of results returned</h3>
-						<select name="return-type" multiple required>
-							<option value="all" selected>All</option>
+						<select name="return-type">
+							<option value="all types" selected>All Types</option>
 							<option value="authors">Authors</option>
 							<option value="books">Books</option>
 							<option value="games">Games</option>
@@ -66,7 +68,7 @@
 					</div>
 					<div>
 						<h3>Max number of results returned</h3>
-						<select name="max-results" required>
+						<select name="max-results">
 							<option value="5">5</option>
 							<option value="10">10</option>
 							<option value="20" selected>20</option>
@@ -83,7 +85,9 @@
 			</section>
 			<section id="favorites-section">
 				<h2 class="section-header">Your favorite recommendations</h2>
-				<button type="button" name="Settings" title="Change how your favorites are viewed"><span class="fa fa-cog"></span> Show Settings</button> 
+				<button type="button" id="results-settings" title="Change how your favorites are viewed">
+					<span class="fa fa-cog"></span> <span id="button-text1">Show</span><span id="button-text2">Hide</span> Settings
+				</button> 
 				<form id="results-settings-form">
 					<select name="sort-results" title="Sort recommendations">
 						<option label="Sort by" value="" disabled selected>Sort by</option>
@@ -102,36 +106,38 @@
 						<option value="music">Music</option>
 						<option value="show">Show</option>
 					</select>
-					<select name="limit-num-results" title="Limit number of recommendations per page">
+					<select name="max-num-favs-seen" title="Limit number of recommendations per page">
 						<option label="Results per page" value="" disabled selected>Results per page</option>
 						<option value="5">5</option>
 						<option value="10">10</option>
 						<option value="20">20</option>
 						<option value="50">50</option>
 					</select>
-					<button type="submit" value="submit">Submit</button>
+					<input type="submit" value="Submit">
 				</form>
+				<nav class="results-nav">
+					<ul class="pager">
+						<li class="previous"><a href="#">Previous</a></li>
+						<form id="favorites-page-num-form">Page 
+							<input type="text" name="page-num"> of <span class="totalPages"></span>
+							<input type="submit" value="Go">
+						</form>
+						<li class="next"><a href="#">Next</a></li>
+					</ul>
+				</nav>
 				<div class="results-container">			
 				</div>
 			</section> 
 			<section id="history-section">
 				<h2 class="section-header">Your previous activities</h2>
 				<span>Activity Type:</span>
-				<select name="activity-type">
-					<option value="all">All</option>
-					<option value="deletes">Deletes</option>
-					<option value="favorites">Favorites</option>
-					<option value="searches">Searches</option>
+				<select name="activity-filter" id="activity-filter">
+					<option value="all activities">All Activities</option>
+					<option value="deletes">Recommendations Deleted</option>
+					<option value="favorites">Recommendations Favorited</option>
+					<option value="searches">Recommendation Searches</option>
 				</select>
 				<ul id="activity-list">
-					<li class="activity">
-						<button type="button" name="remove"><span class="fa fa-trash"></span></button>
-						<strong>Activity Type:</strong> <span class="type-of-activity">1</span> <strong>Description of Activity:</strong> <span class="description-of-activity">2</span>
-					</li>
-					<li class="activity">
-						<button type="button" name="remove"><span class="fa fa-trash"></span></button>
-						<strong>Activity Type:</strong> <span class="type-of-activity">1</span> <strong>Description of Activity:</strong> <span class="description-of-activity">2</span>
-					</li>
 				</ul>
 			</section>
 		<!---------------------------------------------------------- Footer of the webpage ------------------------------------------------>
@@ -152,22 +158,36 @@
 						<a href=".result-description" role="menuitem" title="View the result's description">Description</a>
 					</li>
 					<li role="presentation">
-						<a href=".result-links" role="menuitem" title="View a Wikipedia article and a YouTube clip about the result when available">Link(s)</a>
+						<a href=".result-links" role="menuitem" title="View a Wikipedia article or YouTube video clip when available">Link(s)</a>
 					</li>
 				</ul>	
 				<div class="result-intro">
-					<em class="result-type">Video</em>
-					<h3 class="result-name">adfa  leaef elawogf ralofero relarf oeda fgjaorf gajg lraofg ajrlg algroekgalg og ga ogr agol rj</h3>
+					<em class="result-type" title="The type of recommendation"></em>
+					<h3 class="result-name" title="The name of the recommendation"></h3>
 				</div>
-				<p class="result-description">Test 1</p>
+				<p class="result-description"></p>
 				<div class="result-links">
-					<span class="wiki-url"><span class="fa fa-wikipedia-w" title="Wikipedia's logo"></span> <a target="_blank">Article</a></span>
-					<span class="yt-url"><span class="fa fa-youtube" title="YouTube's logo"></span> <a target="_blank">Video clip</a></span>
+					<a class="wiki-url" target="_blank" title="Read a Wikipedia article about this recommendation">
+						<span class="fa fa-wikipedia-w"></span> Article
+					</a>
+					<a class="yt-url" target="_blank" title="See a YouTube video clip about this recommendation">
+						<span class="fa fa-youtube"></span> Video clip
+					</a>
 				</div>
 				<hr>
-				<button type="button" name="Favorite" title="Add this recommendation as a favorite"><i class="fa fa-star"></i> Favorite</button>
-				<button type="button" name="Delete" title="Delete this recommendation"><i class="fa fa-trash"></i> Delete</button>
+				<button type="button" name="Favorite" title="Add this recommendation as a favorite">
+					<i class="fa fa-star"></i> Favorite
+				</button>
+				<button type="button" name="Delete" title="Delete this recommendation">
+					<i class="fa fa-trash"></i> Delete
+				</button>
 			</div>
+			<li class="activity">
+				<button type="button" name="remove"><span class="fa fa-trash"></span></button>
+				<strong>Time of Activity:</strong> <span class="time-of-activity"></span>,
+				<strong>Type of Activity:</strong> <span class="type-of-activity"></span>, 
+				<strong>Description of Activity:</strong> <span class="description-of-activity"></span>
+			</li>
 		</div>
 	</body>
 </html>

@@ -26,13 +26,13 @@ var getResultInfoFromMenuItem = function(menuItem, resultInfoClass) {
 
 /* Show a dropdown menu by attaching the menu from the navigation pills to div.dropdown.  */ 
 var showDropDownMenu = function() {
-	var dropDownMenu = jq("nav ul").clone().removeClass("nav-pills").addClass("dropdown-menu");
+	var dropDownMenu = jq("#webpage-nav ul").clone().removeClass("nav-pills").addClass("dropdown-menu");
 		
-	jq("div.dropdown").append(dropDownMenu); 
+	jq("#webpage-nav .dropdown").append(dropDownMenu); 
 };
 
 /* Show transition of previously active menu item to the current active menu item when given both the
-previously and currently clicked menu items (which are li DOM elements). */ 
+previously and currently clicked menu items (which are both jQuery objects).*/ 
 var showActiveMenuItemTransition = function(prevClickedMenuItem, currClickedMenuItem ) {
 		jq(prevClickedMenuItem).removeClass("active");
 		jq(currClickedMenuItem).addClass("active");
@@ -40,7 +40,7 @@ var showActiveMenuItemTransition = function(prevClickedMenuItem, currClickedMenu
 
 
 /* Show transition of the display of one section element to another when given both the previously and 
-currently clicked menu item. */
+currently clicked menu items. All arguments are assumed to be jQuery objects. */
 var showSectionTransition = function(prevClickedMenuItem, currClickedMenuItem) {
 	var fromSectionId = getHrefFromMenuItem(prevClickedMenuItem),
 		toSectionId = getHrefFromMenuItem(currClickedMenuItem);
@@ -50,7 +50,8 @@ var showSectionTransition = function(prevClickedMenuItem, currClickedMenuItem) {
 };
 
  /* Show transition of the display of one piece of information about a recommendation to another piece of 
-information when given both the previously and currently clicked menu items. */
+information when given both the previously clicked menu item and currently clicked menu item. All arguments
+are assumed to be jQuery objects. */
 var showRecommendationInfoTransition = function(prevClickedMenuItem, currClickedMenuItem) {
 	var fromResultInfo = getHrefFromMenuItem(prevClickedMenuItem),
 		toResultInfo = getHrefFromMenuItem(currClickedMenuItem);
@@ -60,16 +61,18 @@ var showRecommendationInfoTransition = function(prevClickedMenuItem, currClicked
 };
 
 /* Allow for transitioning of the display of sections elements, menu items, and recommedation information ,*/
-var enableTransitions = function() {
-	jq("nav li").click(function(event) {
+var allowTransitions = function() {
+	jq("#webpage-nav li").click(function(event) {
 		// Find previous and current active navigation menu item. 
-		var currActive = jq("nav").find("." + jq(this).attr("class")),
-			prevActive = jq("nav").find(".active");
+		var currActive = jq(this); 
+			prevActive = jq("#webpage-nav").find(".active");
 			
 		event.preventDefault(); 
 		
-		showActiveMenuItemTransition(prevActive, currActive);
-		showSectionTransition(prevActive, currActive);
+		if (currActive.text() !== prevActive.text()) { // Do not make function calls when user is clicking the same active menu item again
+			showActiveMenuItemTransition(prevActive, currActive);
+			showSectionTransition(prevActive, currActive);
+		}
 	}); 
 	
 	jq(".results-container").on("click", ".result li", function(event) {
