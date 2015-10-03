@@ -1,17 +1,23 @@
 <!doctype html>
 <html lang="en">
 	<head>
+		<!--------- Title of webpage ---------->
+		<title>Recommendation App</title>
+		<!----------- Metadata tags ----------->
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Recommendation App</title>
+		<!---------- CSS files --------->
 		<link rel="stylesheet" href="https://necolas.github.io/normalize.css/3.0.2/normalize.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="./styles/main.css">
+		<!--------- JavaScript files -------->
 		<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script src="./apps/sortingFavorites.js"></script>
 		<script src="./apps/app.js"></script>
-		<script src="./apps/menuTransitions.js"></script>
+		<!------------ FavIcon ------------>
+		<link rel="shortcut icon" href="./favicon.ico"
 	</head>
 	<body>
 		<!--------------------------------------------- Navigation bar of the webpage ---------------------------------------------->
@@ -19,7 +25,7 @@
 			<!-- Main navigation bar -->
 			<ul class="nav nav-pills" role="menu">
 				<li class="active nav-menu-item1" role="presentation">
-					<a href="#help-section" role="menuitem" title="Get help">Help</a>
+					<a href="#about-section" role="menuitem" title="View information about the webpage">About</a>
 				</li>
 				<li class="nav-menu-item2" role="presentation">
 					<a href="#search-section" role="menuitem" title="Get a recommendation">Search</a>
@@ -44,108 +50,184 @@
 		</nav>
 		<h1 id="title-header">Recommender App</h1>
 		<!------------------------------------------------- Sections of the webpage ---------------------------------------------->
-			<section id="help-section">
-				<h2 class="section-header">Get help with the webpage</h2>
-			</section>
-			<section id="search-section">
-				<h2 class="section-header">What do you want a recommendation for?</h2>
-				<form id="search-form">
-					<div>
-						<h3 title="Name or title of the item, person, or group">Name</h3> 
-						<input type="text" name="Name" placeholder="e.g., Game of Thrones" autofocus required>
-					</div>
-					<div>
-						<h3>Type of results returned</h3>
-						<select name="return-type">
-							<option value="all types" selected>All Types</option>
-							<option value="authors">Authors</option>
-							<option value="books">Books</option>
-							<option value="games">Games</option>
-							<option value="movies">Movies</option>
-							<option value="musics">Music</option>
-							<option value="shows">Shows</option>
-						</select>
-					</div>
-					<div>
-						<h3>Max number of results returned</h3>
-						<select name="max-results">
-							<option value="5">5</option>
-							<option value="10">10</option>
-							<option value="20" selected>20</option>
-							<option value="50">50</option>
-						</select>
-					</div>
-					<button type="submit" value="search"><i class="fa fa-search"></i> Search</button>
-				</form>
-			</section>
-			<section id="recommendations-section">
-				<h2 class="section-header">The recommendations for your search</h2> 
-				<div class="results-container">			
-				</div> 
-			</section>
-			<section id="favorites-section">
-				<h2 class="section-header">Your favorite recommendations</h2>
-				<button type="button" id="results-settings" title="Change how your favorites are viewed">
-					<span class="fa fa-cog"></span> <span id="button-text1">Show</span><span id="button-text2">Hide</span> Settings
-				</button> 
-				<form id="results-settings-form">
-					<select name="sort-results" title="Sort recommendations">
-						<option label="Sort by" value="" disabled selected>Sort by</option>
-						<option value="name-ascending">Name (Ascending)</option>
-						<option value="name-descending">Name (Descending)</option>
-						<option value="added-ascending">Added (Ascending)</option>
-						<option value="added-descending">Added (Descending)</option>
-					</select>
-					<select name="filter-results" title="Filter recommendation by type" multiple>
-						<option value="">Remove any filter(s)</option>
-						<option label="Filter by" value="" disabled selected>Filter by</option>
-						<option value="author">Author</option>
-						<option value="book">Book</option>
-						<option value="game">Game</option>
-						<option value="movie">Movie</option>
-						<option value="music">Music</option>
-						<option value="show">Show</option>
-					</select>
-					<select name="max-num-favs-seen" title="Limit number of recommendations per page">
-						<option label="Results per page" value="" disabled selected>Results per page</option>
-						<option value="5">5</option>
-						<option value="10">10</option>
-						<option value="20">20</option>
-						<option value="50">50</option>
-					</select>
-					<input type="submit" value="Submit">
-				</form>
-				<nav class="results-nav">
-					<ul class="pager">
-						<li class="previous"><a href="#">Previous</a></li>
-						<form id="favorites-page-num-form">Page 
-							<input type="text" name="page-num"> of <span class="totalPages"></span>
-							<input type="submit" value="Go">
-						</form>
-						<li class="next"><a href="#">Next</a></li>
-					</ul>
-				</nav>
-				<div class="results-container">			
-				</div>
-			</section> 
-			<section id="history-section">
-				<h2 class="section-header">Your previous activities</h2>
-				<span>Activity Type:</span>
-				<select name="activity-filter" id="activity-filter">
-					<option value="all activities">All Activities</option>
-					<option value="deletes">Recommendations Deleted</option>
-					<option value="favorites">Recommendations Favorited</option>
-					<option value="searches">Recommendation Searches</option>
+		<!----------- About section ------------->
+		<section id="about-section">
+			<h2 class="section-header">About the webpage</h2>
+			<p>Hello. Thanks for visiting this webpage. You must enable Javascript (if you have not already) in order to get the
+			the functionality of this webpage.</p>
+			<p>This webpage is about getting recommendations for movies, books, authors, music, television shows, and games using
+			TasteKid's API. This is a webpage I created using HTML, CSS, JavaScript, jQuery, Bootstrap, and Font Awesome as a way 
+			of learning how to do front-end web develoment. This is a Thinkful project that I did as part of their front-end 
+			web development course.</p>
+			<p>My goal for this webpage was to give the user the ability to find recommendations and be able to favorite them. I spent 
+			about three weeks overall on this project because I wanted to see what I could do with it. Please take a look around. 
+			If you need help, just click the help button located on the other sections of the webpage.</p>
+		</section>
+		<!----------- Search section ----------->
+		<section id="search-section">
+			<h2 class="section-header">What do you want a recommendation for?</h2>
+			<button type="button" class="help-button" title="Click for help"><span class="fa fa-question-circle"> Help</span></button>
+			<div class="section-help">
+				<button class="close-button" title="Click to close">&#10006;</button>
+				<p>This section is for searching for a recommendation. You can search for a recommendation by filling 
+				out the form below. By default, all types of recommendations are returned and the maximum number of recommendations 
+				retrieved is set to 20. Click the search button after you have finished filling out the form and are ready to see 
+				recommendations.</p>
+			</div>
+			<form id="search-form">
+				<label for="query-name" title="Name or title of the item, person, or group">Name:</label> 
+				<input type="text" name="Name" id="query-name" placeholder="e.g., Game of Thrones" autofocus required>
+				<label for="retrieval-type">Type of results returned:</label>
+				<select name="return-type" id="retreival-type">
+					<option value="all types" selected>All Types</option>
+					<option value="authors">Authors</option>
+					<option value="books">Books</option>
+					<option value="games">Games</option>
+					<option value="movies">Movies</option>
+					<option value="musics">Music</option>
+					<option value="shows">Shows</option>
 				</select>
-				<ul id="activity-list">
+				<label for="max-results">Max number of results returned:</label>
+				<select name="max-results" id="max-results">
+					<option value="5">5</option>
+					<option value="10">10</option>
+					<option value="20" selected>20</option>
+					<option value="50">50</option>
+				</select>
+				<button type="submit" value="search"><span class="fa fa-search"></span> Search</button>
+			</form>
+		</section>
+		<!----------- Recommendation section ------------->
+		<section id="recommendations-section">
+			<h2 class="section-header">The recommendations for your search</h2> 
+			<button type="button" class="help-button" title="Click for help"><span class="fa fa-question-circle"> Help</span></button>
+			<div class="section-help">
+				<button class="close-button" title="Click to close">&#10006;</button>
+				<p>This section is for viewing your recommendation search results after you have made a search. You can click on the tabs of a 
+				recommendation result for viewing different information about that particular recommendation. If you like a recommendation, you can add 
+				it to your favorites by clicking its favorite button. If you see that its favorite button has a black background with white text 
+				saying &quot;Favorited&quot;, then that recommendation's name and type already exists in your favorite recommendations. You can navigate
+				through the recommendation results by clicking on the directional arrows that has text &quot;Next&quot; or &quot;Previous&quot;. 
+				Another way to navigate the recommendations is by entering a page number. By default, the maximum number of recommendations displayed 
+				per page is five.</p>
+			</div>
+			<span>Max recommendations per page:</span>
+			<select name="results-max-seen-select" title="Limit number of recommendations per page">
+				<option value="5" selected>5</option>
+				<option value="10">10</option>
+				<option value="20">20</option>
+				<option value="50">50</option>
+			</select>
+			<div class="retrieval-info">
+				<p><span>0</span> result(s) retrieved for &quot;<span></span>&quot;.</p>
+				<p>Now showing recommendation(s) <span></span> through <span></span>.</p> 
+			</div>
+			<nav class="results-nav">
+				<form id="results-page-num-form">Page 
+					<input type="text" name="page-num" value="1"> of <span class="max-num-pages"></span>
+					<input type="submit" value="Go">
+				</form>
+				<ul class="pager">
+					<li class="previous disabled"><a href="#"><span class="fa fa-arrow-left"></span> Previous</a></li>
+					<li class="next disabled"><a href="#">Next <span class="fa fa-arrow-right"></span> </a></li>
 				</ul>
-			</section>
+			</nav>
+			<hr>
+			<div class="results-container">			
+			</div> 
+		</section>
+		<!-------------- Favorites section --------->
+		<section id="favorites-section">
+			<h2 class="section-header">Your favorite recommendations</h2>
+			<button type="button" class="help-button" title="Click for help"><span class="fa fa-question-circle"> Help</span></button>
+			<div class="section-help">
+				<button class="close-button" title="Click to close">&#10006;</button>
+				<p>This section is for viewing your favorite recommendations after you have favorited them. You can click on the tabs 
+				of a recommendation result for viewing different information about that particular recommendation. A recommendation 
+				can be deleted by clicking its delete button. You can navigate through the recommendation results by clicking on the 
+				directional arrows that has text &quot;Next&quot; or &quot;Previous&quot;. Another way to navigate the recommendations 
+				is by entering a page number. You can change the way the recommendations are displayed by clicking on the button with 
+				the text &quot;Settings&quot; that exist below.</p>
+			</div>
+			<button type="button" id="favs-settings-button" title="Change how your favorites are viewed">
+				<span class="fa fa-cog"></span> Settings
+			</button> 
+			<form id="favs-settings-form">
+				<button class="close-button" title="Click to close">&#10006;</button>
+				<label for="favs-sort-select">Sort by:</label>
+				<select name="favs-sort-select" id="favs-sort-select">
+					<option value="name-ascending" title="Name (ascending order)">Name (Asc)</option>
+					<option value="name-descending" title="Name (descending order)">Name (Desc)</option>
+					<option value="added-ascending" title="When favorited (desceding order)"> When Favorited (Asc)</option>
+					<option value="added-descending" title="When favorited (descending order)"selected>When Favorited (Desc)</option>
+				</select>
+				<label for="favs-filter-select">Filter by:</label>
+				<select name="favs-filter-select" id="favs-filter-select" title="Filter recommendation by type" multiple>
+					<option value="" selected>No Filter</option>
+					<option value="author">Author</option>
+					<option value="book">Book</option>
+					<option value="game">Game</option>
+					<option value="movie">Movie</option>
+					<option value="music">Music</option>
+					<option value="show">Show</option>
+				</select>
+				<label for="favs-max-seen-select">Max results per page:</label>
+				<select name="favs-max-seen-select" id="favs-max-seen-select" title="Limit number of recommendations per page">
+					<option value="5"selected>5</option>
+					<option value="10">10</option>
+					<option value="20">20</option>
+					<option value="50">50</option>
+				</select>
+				<input type="submit" value="Submit">
+			</form>
+			<nav class="results-nav">						
+				<form id="favorites-page-num-form">Page 
+					<input type="text" name="page-num" value="1"> of <span class="max-num-pages"></span>
+					<input type="submit" value="Go">
+				</form>
+				<ul class="pager">						
+					<li class="previous disabled"><a href="#"><span class="fa fa-arrow-left"></span> Previous</a></li>
+					<li class="next disabled"><a href="#">Next <span class="fa fa-arrow-right"></span> </a></li>
+				</ul>
+			</nav>	
+			<div class="retrieval-info">
+				<p>You have a total of <span>0</span> favorite recommendation(s).</p>
+				<p>Now showing favorite(s) <span></span> through <span></span>.</p> 
+			</div>
+			<hr>
+			<div class="results-container">			
+			</div>
+		</section> 
+		<!------------ History section ---------->
+		<section id="history-section">
+			<h2 class="section-header">Your previous activities</h2>
+			<button type="button" class="help-button" title="Click for help"><span class="fa fa-question-circle"> Help</span></button>
+			<div class="section-help">
+				<button class="close-button" title="Click to close">&#10006;</button>
+				<p>This section is for viewing your activity history once you have made at least one search, added a favorite, or deleted
+				a favorite. By default, all activities are shown, but you can choose which activity you want to view by selecting it. 
+				The only types of activities that can be shown are information about your searches, favorites, and deletes. The time in which 
+				each activity occurred is also presented. You can delete a listing by clicking the button with a trash can for that listing.
+				This section may help you to understand your behaviour or just to review what you have done on this webpage.</p>
+			</div>
+			<span>Activity type:</span>
+			<select name="activity-filter" id="activity-filter">
+				<option value="all activities">All Activities</option>
+				<option value="deletes">Recommendations Deleted</option>
+				<option value="favorites">Recommendations Favorited</option>
+				<option value="searches">Recommendation Searches</option>
+			</select>
+			<hr>
+			<ul id="activity-list">
+			</ul>
+		</section>
 		<!---------------------------------------------------------- Footer of the webpage ------------------------------------------------>
 		<footer>
 			<hr>
-			<p>This webpage uses recommendations provided by <a href="http://www.tastekid.com/read/api" target="_blank">TasteKid's API</a>, but 
-			this webpage is not affiliated with nor endorsed by TasteKid or any of the recommendations that are given. The recommendations are 
-			trademarked and copyrighted by their respective owners, not me.</p>
+			<p>This webpage uses recommendations provided by <a href="http://www.tastekid.com/read/api" target="_blank">TasteKid's API</a> and the 
+			logos of <a href="https://en.wikipedia.org" target="_blank">Wikipedia</a> and <a href="https://www.youtube.com" target="_blank">YouTube</a>,
+			but that does not imply any affiliation or endorsement by the organizations for this webpage or the recommendations. I am not affiliated with
+			them. The recommendations are trademarked and copyrighted by their respective owners, not me.</p>
 		</footer>
 		<!------------------------------------------------------------ Hidden templates ---------------------------------------------------->
 		<div class="template">
@@ -162,7 +244,7 @@
 					</li>
 				</ul>	
 				<div class="result-intro">
-					<em class="result-type" title="The type of recommendation"></em>
+					<p>Recommendation type: <strong class="result-type"></strong></p>
 					<h3 class="result-name" title="The name of the recommendation"></h3>
 				</div>
 				<p class="result-description"></p>

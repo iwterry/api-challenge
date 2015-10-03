@@ -5,7 +5,7 @@
 		- Drop-down menu styles 
 	- Title of webpage styles
 	- Section styles
-		- Helper section styles
+		- About section styles
 		- Search section styles
 		- Recommendations section styles
 		- Favorites section styles
@@ -15,10 +15,75 @@
 	- Media queries styles
 */
 
-/* Common styles */
+/* ------------------------------------------------------------- Common styles ----------------------------------------------------- */
 #search-section, #recommendations-section, #favorites-section, #history-section, 
-#results-settings-form, #button-text2, .result-description, .result-links, button[name='Delete'] { /* These will change according to the user with JavaScript */
+#favs-settings-form, .result-description, .result-links, .section-help, .results-nav,
+.retrieval-info, .result button[name='Delete'] { /* These will change according to the user with JavaScript */
 	display: none; 
+}
+
+.help-button {
+	display: block; 
+	margin: 1em 0em; 
+}
+
+.section-help {
+	border: 2px solid black; 
+	margin: 0em 2em 2em 2em; 
+}
+
+.close-button {
+	width: 3em; 
+	margin: 0em 0.2em 0.2em auto; 
+	display: block; 
+	background-color: rgba(255, 0, 0, 0.5); 
+	color: white; 
+}
+
+.close-button:hover {
+	background-color: rgba(255, 0, 0, 1); 
+}
+
+.section-help p {
+	padding: 0em 1em; 
+}
+#search-form, 
+#favs-settings-form {
+	background-color: #F9F9F9;
+	border: 1px solid #808080; 
+}
+section .retrieval-info { 
+	text-align: center; 
+	font-size: 1.5em; 
+	border: 1px solid black; 
+	width: 45%; 
+	min-width: 13em; 
+	margin: 2em auto 2em auto; 
+}
+
+.retrieval-info span {
+	font-weight: bold; 
+}
+
+#favorites-page-num-form,
+#results-page-num-form  {
+	text-align: center; 
+	margin: 3em auto; 
+}
+
+#favorites-page-num-form input[type='text'], 
+#results-page-num-form input[type='text'] {
+	width: 2.5em; 
+}
+
+#favorites-page-num-form input[type='submit'], 
+#results-page-num-form input[type='submit'] {
+	margin-left: 2.5em; 
+}
+
+.results-nav .pager {
+	width: 60%; 
+	margin: 0em auto; 
 }
 
 .yt-url , .wiki-url {
@@ -33,6 +98,7 @@
 .wiki-url {
 	float: left; 
 }
+
 
 /* ------------------------------------ Webpage navigation styles ----------------------------- */
 #webpage-nav {
@@ -53,10 +119,8 @@
 
 #webpage-nav li:not(.active) a:hover {
 	background-color: rgba(86,1,1,0.1); 
+	text-decoration: underline; 
 }
-
-
-
 
 /* Webpage navigation with pills menu */
 #webpage-nav .nav-pills {
@@ -90,49 +154,46 @@
 	margin-top: 1.8em;
 }
 
-/* All sections styles */
-section {
 
-}
-
-/* Search section styles */
+/*------------------------------------------ Section styles ------------------------------------ */
 .section-header {
 	margin: 1em; 
 	color: rgba(86,1,1,1); 
 }
 
+/* ------------ About section styles ----------- */
+#about-section  p { 
+    width: 60%;
+    max-width: 40em;
+    margin: 0em auto 2em auto;
+}
+
+/* ------------------ Search section styles ----------------- */
 #search-form  {
-	width: 90%; 
-	min-width: 50em;
+	width: 65em; 
 	margin: 0em auto; 
-	padding: 2em;
-	border: 1px solid gray; 
+	padding: 4em 2em;
 	text-align: center; 
-	overflow: hidden; 
 }
 
-#search-form div {
-	width: 32%;
-	display: inline-block; 
+#search-form label {
 	vertical-align: top;
-	padding-bottom: 2em; 
 }
 
-#search-form div h3 {
-	margin-top: 0; 
+#search-form  input[name='Name'],
+#search-form select[name='return-type'] {
+	vertical-align: top;
+	margin-right: 2em; 	
+	display: inline-block;
 }
 
 #search-form button {
-	margin: 2em; 
-	float: right; 
-	height: 5em;
-    width: 5em;
-    border-radius: 100%;
-    border: none;
-    font-weight: bold;
+	display: block;
+    width: 6em;
+	margin: 2em 0em 0em auto; 
 }
 
-/* Recommendations section styles */
+/* --------------- Recommendations section styles ---------- */
 #recommendations-section, 
 .results-container {
 	overflow: hidden;
@@ -158,41 +219,49 @@ section {
     overflow-x: hidden;
 }
 
-.result-type {
-	float: right;
-	font-weight: bold;
-	text-decoration: underline;
+.result-intro p {
+	text-align: right; 
+	margin: 0.2em 0.2em 0em 0em;
 }
 
 .result button {
-	position: relative;
-	left: 35%; 
-	margin-bottom: 0.5em; 
+	display: block; 
+	margin: 0em auto 0.5em auto; 
 }
 
-/* Favorites section styles*/
-#results-settings-form {
-    width: 46em;
+/* ------------- Favorites section styles ----------------*/
+#favs-settings-form {
+    width: 68em;
     margin: 1em auto;
-	padding: 1em 0em; 
+	padding: 0em 0em 1em 0em; 
     text-align: center;
-	border: 2px solid #D8D8D8;
 }
 
-#results-settings-form select {
-    width: 11em; 
-	margin: 0em 2em;
+#favs-settings-form label {
+	vertical-align: middle; 
+}
+
+#favs-settings-form select {
+    width: 12em; 
     display: inline-block;
-    vertical-align: top;
+    vertical-align: middle;
 }
 
-#results-settings-form input[type='submit'] {
-	margin-top: 3em; 
+#favs-settings-form select[name='favs-sort-select'],
+#favs-settings-form select[name='favs-filter-select'] {
+	margin-right: 2em; 
 }
 
-/* History section styles */ 
+#favs-settings-form input[type='submit'] {
+	margin: 3em 2em 0em auto; 
+	display: block; 
+}
+
+
+/* ------------------ History section styles -------------- */ 
 li.activity {
 	list-style-type: none; 
+	margin-bottom: 0.5em; 
 }
 
 li.activity:hover{
@@ -204,13 +273,14 @@ footer {
 	padding: 3em; 
 }
 
-/* .template styles */
+
+/* --------------------------------- .template styles --------------------------- */
 .template {
 	display: none; 
 }
 
 
-/* Media queries styles */
+/* ------------------------------------------ Media queries styles ----------------------------- */
 @media only screen and (max-width: 1150px) {
 	.result:nth-child(even) {
 		float: right; 
@@ -229,24 +299,43 @@ footer {
 	#webpage-nav .dropdown {
 		display: block; 
 	}
+	
+	#search-form {
+		width: 30em; 
+	}
+	
+	#search-form input[name='Name'],
+	#search-form select {
+		margin: 0em 0em 2em 0em;
+	}
+	
+	#search-form button {
+		margin-top: 1em; 
+	}
+	
+	#favs-settings-form {
+		width: 15em;
+	}
+	
+	#favs-settings-form select {
+		margin-bottom: 2em; 
+	}
+	
+	#favs-settings-form select[name='favs-sort-select'],
+	#favs-settings-form select[name='favs-filter-select'] {
+		margin-right: 0em; 
+	}
+	
+	#favs-settings-form input[type='submit'] {
+		margin-top: 1em; 
+	}
 }
 
 @media only screen and (max-width: 750px) {
-	#search-form div {
-		display: block; 
-		width: 100%;
-	}
-	#search-form {
-		width: 80%; 
-		min-width: 0em;
-	}
-	#search-form button {
-		margin-top: 1em; 
-		float: none; 
-	}
 	.results-container {
 		padding: 0em 2em; 
 	}
+	
 	.result, .result:nth-child(even) {
 		float: none; 
 		width: 60%; 
@@ -255,16 +344,19 @@ footer {
 		display: block; 
 	}
 	
-	#results-settings-form {
+	#favs-settings-form {
 		width: 15em;
 	}
+}
 
-	#results-settings-form select {
-		margin: 0em 0em 2em 0em;
-		vertical-align: baseline;
+@media only screen and (max-width: 450px) {
+	#search-form label{
+		display: block; 
 	}
-	#results-settings-form button {
-		margin-top: 1em; 
+	
+	#search-form  {
+		width: 20em; 
+		padding: 2em; 
 	}
 }
 
