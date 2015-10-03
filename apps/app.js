@@ -27,6 +27,12 @@ Content:
 		- DOM traversal/manipulation helper function
 		- Event handlers for favoriting (or deleting favorite) recommendations
 	- jQuery ready method	
+
+Known Issues (Updated 10/3/2015): 
+	-	When changing pages via entering text into the input field, 
+	the program does nothing when user enters a page number the exceed the page maximum and hits the next pager to go
+	to the next page. Although the user should be able to go to the next page if there is one, the program does nothing.
+	However if user then goes and enter a valid page number, the program works fine. 
 */
 	
 
@@ -47,7 +53,7 @@ Content:
 			favorites: "favorites-history",
 			searches: "searches-history"
 		},
-		typeOfSortFavorites, typeOfFilterFavorites, numOfRecs, maxNumPages, maxNumRecsSeen;
+		typeOfSortFavorites, typeOfFilterFavorites, numOfRecs, maxNumPages, maxNumRecsSeen, maxFavsSelected, temp;
 
 
 	//	####################################### Section and recommendation navigations ############################# 
@@ -249,14 +255,14 @@ Content:
 	/* 	This function requires one argument, the JSON object returned from the TasteKid API. This function will 
 	display the data to the user. */ 
 	var showData = function(response) {	
-		var favoritesPageNumForm = jq("#results-page-num-form");
+		var ResultsPageNumForm = jq("#results-page-num-form");
 		
 		jq.each(response.Similar.Results, function(index, result) {
 			// display a recommendation to the user
 			showRec(result.Name, result.Type, result.wTeaser, result.wUrl, result.yUrl); 
 		});
-		favoritesPageNumForm.find("input[name='page-num']").val(1);
-		favoritesPageNumForm.trigger("submit");
+		ResultsPageNumForm.find("input[name='page-num']").val(1);
+		ResultsPageNumForm.trigger("submit");
 	};
 	
 	// --------------------------------------- Function for requesting data -----------------------------------------
@@ -392,17 +398,23 @@ Content:
 			
 			event.preventDefault();
 			
+			// Let the user know what's going on. 
+			jq(this).find("input[type='submit']").val("Processing"); 
+			
+			
 			// Get the settings for how the viewer wants to sort, filter, and view the number of recommendations. 
 			typeOfSortFavorites = jq(this).find("select[name='favs-sort-select']").val();
 			typeOfFilterFavorites = jq(this).find("select[name='favs-filter-select']").val();
-			maxNumRecsSeen = parseInt(jq("#favorites-section select[name='favs-max-seen-select']").val());
+			maxFavsSelected = parseInt(jq("#favorites-section select[name='favs-max-seen-select']").val());
 			
 			// Should be on first page after changing settings. 
 			favoritesPageNumForm.find("input[name='page-num']").val(1);
 			
 			sortFavorites(); 
 			filterFavorites(); 
-			favoritesPageNumForm.trigger("submit"); //  to change how many recommendations are viewed at once.
+			favoritesPageNumForm.trigger("submit"); // to update num of recommendations per page
+			
+			jq(this).find("input[type='submit']").val("Submit");
 		});
 	}; 
 	
@@ -500,13 +512,14 @@ Content:
 					.siblings()
 						.find("input[name='page-num']"),
 				isNextClass = jq(this).hasClass("next"), 
-				pageNum = parseInt(userTextInput.val()) + (isNextClass|| -1);
+				newPageNum = parseInt(userTextInput.val()) + (isNextClass || -1);
 
 			event.preventDefault(); 
 			
 			// Check to see from which section the user is trigger the event to navigate recommendations
 			if(jq(this).parent().siblings().is("#favorites-page-num-form")) {
 				numOfRecs = jq("#favorites-section .type-selected").length;
+				maxNumRecsSeen = maxFavsSelected; 
 			}
 			else {
 				numOfRecs = jq("#recommendations-section .result").length;
@@ -515,8 +528,8 @@ Content:
 			
 			maxNumPages = Math.ceil(numOfRecs / maxNumRecsSeen);
 			
-			if(isPageNumValid(pageNum)) {
-				userTextInput.val(pageNum); 
+			if(isPageNumValid(newPageNum)) {
+				userTextInput.val(newPageNum); 
 				userTextInput.parent().trigger("submit"); 
 			}
 		});
@@ -538,7 +551,8 @@ Content:
 			
 			// Check to see from which section the user is trigger the event to navigate recommendations
 			if(jq(this).is("#favorites-page-num-form")) {
-				secondSelector = ".type-selected";				
+				secondSelector = ".type-selected";		
+				maxNumRecsSeen = maxFavsSelected; 
 			}
 			else {
 				secondSelector = ".result";
@@ -668,7 +682,6 @@ Content:
 			// Update everythin now that the user has added a favorite item. 
 			sortFavorites();
 			filterFavorites();
-			numOfRecs = jq("#favorites-section .type-selected").length;
 			jq("#favorites-page-num-form").trigger("submit");
 			filterHistory();
 		
@@ -681,16 +694,27 @@ Content:
 	var allowDelFavRec = function() {
 		jq("#favorites-section").on("click", "button[name='Delete']", function() {
 			var identifier = getRecNameOrType(this, "getName"), 
-				type = getRecNameOrType(this, "getType");
+				type = getRecNameOrType(this, "getType"),
+				currPageNum = parseInt(jq("#favorites-page-num-form").find("input[name='page-num']").val()),
+				maxPages = parseInt(jq("#favorites-page-num-form").find("input[name='max-num-pages']").val()),
+				isMultipleOfMax = (numOfRecs - 1) % maxFavsSelected === 0,
+				isAtPageLimit = currPageNum === maxPages;
 				
 			// Delete the recommendation and its id and log the event. 
 			favIdsObj.deleteFav(this.parentElement.getAttribute("id"));
 			jq(this).parent().remove();
 			logHistory("Recommendation deleted", "name -- " + identifier + "; type -- " + type, "deletes" );
+			
 			// Update this information so the view can see changes if necessary.
 			filterHistory();
-			numOfRecs = jq("#favorites-section .type-selected").length;
-			jq("#favorites-section .previous").trigger("click");
+			
+			// Decide whether the user should be shown the previous page because no results are on the current page. 
+			if(isMultipleOfMax && isAtPageLimit) {
+				jq("#favorites-section .previous").trigger("click");
+			}
+			else { // just update information since the user has results on the current page. 
+				jq("#favorites-page-num-form").trigger("submit");
+			}
 		}); 
 	};  
 
@@ -719,6 +743,7 @@ Content:
 			jq("#results-page-num-form").trigger("submit");
 		});
 		
+		// Initializing some of the global variables and display settings for favorite recommendations. 
 		jq("#favs-settings-form").trigger("submit"); 
 	});
 })();
