@@ -19,7 +19,7 @@ Content:
 	- Filtering and sorting favorites 
 	- Showing and changing the settings for viewing favorite recommendations 
 	- Navigating between recommendations
-		- Helper logic function
+		- Helper logic functions
 		- Helper DOM manipulation functions
 		- Event handlers for navigation through Bootstrap pagers and entering page number
 	- History section
@@ -28,11 +28,8 @@ Content:
 		- Event handlers for favoriting (or deleting favorite) recommendations
 	- jQuery ready method	
 
-Known Issues (Updated 10/3/2015): 
-	-	When changing pages via entering text into the input field, 
-	the program does nothing when user enters a page number the exceed the page maximum and hits the next pager to go
-	to the next page. Although the user should be able to go to the next page if there is one, the program does nothing.
-	However if user then goes and enter a valid page number, the program works fine. 
+Known Issues (Updated 10/5/2015): 
+	-	
 */
 	
 
@@ -53,7 +50,7 @@ Known Issues (Updated 10/3/2015):
 			favorites: "favorites-history",
 			searches: "searches-history"
 		},
-		typeOfSortFavorites, typeOfFilterFavorites, numOfRecs, maxNumPages, maxNumRecsSeen, maxFavsSelected, temp;
+		typeOfSortFavs, typeOfFilterFavs, numOfRecs, maxNumPages, maxNumRecsSeen, maxFavsSelected, validRecPageNum, validFavPageNum;
 
 
 	//	####################################### Section and recommendation navigations ############################# 
@@ -340,19 +337,19 @@ Known Issues (Updated 10/3/2015):
 	
 	// ############################################# Filtering and sorting favorites ##########################################
 	
-	// This function sorts the recommendations according to the value of typeOfSortFavorites. 
+	// This function sorts the recommendations according to the value of typeOfSortFavs. 
 	var sortFavorites = function() {
 		var favoritesContainer = jq("#favorites-section .results-container"),
 			favoritesContainerCopy = favoritesContainer.clone();
 		
 		favoritesContainer.html('');
-		jq.each(favIdsObj.sort(typeOfSortFavorites), function(index, id) {
+		jq.each(favIdsObj.sort(typeOfSortFavs), function(index, id) {
 			favoritesContainer.append(favoritesContainerCopy.find("div[id='" + id + "']"));
 		});
 	};
 
 	/* This function chooses which types of favorite recommendations should be shown or hidden from the user 
-	according to typeOfFilterFavorites. */  
+	according to typeOfFilterFavs. */  
 	var filterFavorites = function() {
 		var favRecommendations = jq("#favorites-section .results-container");
 		
@@ -362,8 +359,8 @@ Known Issues (Updated 10/3/2015):
 			.removeClass("type-selected");
 			
 		// Show the recommendations from the current filter type(s) chosen. 	
-		for(var i in typeOfFilterFavorites) {
-			if(!typeOfFilterFavorites[i].length) {
+		for(var i in typeOfFilterFavs) {
+			if(!typeOfFilterFavs[i].length) {
 				favRecommendations.find(".result")
 					.show()
 					.addClass("type-selected");
@@ -371,7 +368,7 @@ Known Issues (Updated 10/3/2015):
 				break;
 			}
 			
-			favRecommendations.find("." + recommendationTypesObj[typeOfFilterFavorites[i]])
+			favRecommendations.find("." + recommendationTypesObj[typeOfFilterFavs[i]])
 				.show()
 				.addClass("type-selected");
 		}
@@ -403,8 +400,8 @@ Known Issues (Updated 10/3/2015):
 			
 			
 			// Get the settings for how the viewer wants to sort, filter, and view the number of recommendations. 
-			typeOfSortFavorites = jq(this).find("select[name='favs-sort-select']").val();
-			typeOfFilterFavorites = jq(this).find("select[name='favs-filter-select']").val();
+			typeOfSortFavs = jq(this).find("select[name='favs-sort-select']").val();
+			typeOfFilterFavs = jq(this).find("select[name='favs-filter-select']").val();
 			maxFavsSelected = parseInt(jq("#favorites-section select[name='favs-max-seen-select']").val());
 			
 			// Should be on first page after changing settings. 
@@ -420,7 +417,7 @@ Known Issues (Updated 10/3/2015):
 	
 	
 	// ############################################ Navigating between recommendations ###################################
-	// ------------------------------------- Helper logic function ------------------------------
+	// ------------------------------------- Helper logic functions ------------------------------
 	
 	/* 	This function requires one argument: pageNum (which is a string or a number).
 	This function returns true if pageNum is valid; otherwise, false is returned. */ 
@@ -432,17 +429,29 @@ Known Issues (Updated 10/3/2015):
 		return doesPageNumRepresentInt && isPageNumInValidInterval; 
 	}
 
+	/* This function requires two arguments: formIdName and pageNum (which can be a string or integer
+	representing a valid page number for the particular form). */
+	var setValidPageNum = function(formIdName, pageNum) {
+		if(formIdName === "favorites-page-num-form" ) {
+			validFavPageNum = parseInt(pageNum);
+		}
+		else if (formIdName === "results-page-num-form") {
+			validRecPageNum = parseInt(pageNum);
+		}
+	};
+	
 	// ------------------------------------- Helper DOM traversal/manipulation function ----------------------------
 	
-	/*	This function requires three arguments: pager (a jQuery object with class .next or .previous) and two numbers. 
-	This function adds the class .disabled to the pager to disable navigation based on the two number arguments provided. */
-	var updatePagerStatus = function(pager, pageNum, maxPageNum) {
+	/*	This function requires two arguments: pager (a jQuery object with class .next or .previous) and pageNum (which can be a string or
+	integer, but must be within the valid range). This function adds the class .disabled to the pager to disable navigation based on the
+	the page number provided. */
+	var updatePagerStatus = function(pager, pageNum) {
 		var isNextClass = pager.hasClass("next"),
 			isDisabled = pager.hasClass("disabled"),
 			minMaxPageNum = 1; // minimum page number is 1
 		
 		if(isNextClass) {
-			minMaxPageNum = maxPageNum;
+			minMaxPageNum = maxNumPages;
 		}
 		
 		if(pageNum === minMaxPageNum) {
@@ -454,7 +463,7 @@ Known Issues (Updated 10/3/2015):
 	};
 	
 	/* This function requires two arguments: selector (which is an id selector for a section element) and pageNum 
-	(which is a string or number representing the page number for the recommendations being viewed). This function 
+	(which is a string or integer representing the valid page number for the recommendations being viewed). This function 
 	shows the numbers of the recommendations that are to be displayed to the user. */ 
 	var showRetrievalInfo = function(selector, pageNum) {
 		var retrievalInfo2 = jq(selector).find(".retrieval-info p:nth-child(2) span"),
@@ -464,19 +473,19 @@ Known Issues (Updated 10/3/2015):
 		if(numOfRecs && isPageNumValid(pageNum)) { 
 			retrievalInfo2.first().text(startingIndex+1);
 			retrievalInfo2.last().text(endingIndex+1);
-			retrievalInfo2.parent().show()
+			retrievalInfo2.parent().show();
 			retrievalInfo2.parents(".retrieval-info").show(); 
 		}
 		else if(!numOfRecs) { // hide the paragraph element when there are no recommendations to be displayed
 			retrievalInfo2.first().text(0);
 			retrievalInfo2.last().text(0);
-			retrievalInfo2.parent().hide() 
+			retrievalInfo2.parent().hide(); 
 		}
 	};
 	
 	/* This function requires three string arguments: firstSelector (which is the id selector), 
-	secondSelector (which is a class selector), and pageNum (which can be a string and represents
-	a page number being viewed). This function is responsible for changing the recommendations that 
+	secondSelector (which is a class selector), and pageNum (which also can be an interger, but me 
+	within the valid). This function is responsible for changing the recommendations that 
 	are being viewed by the user. */
 	var changeRecommendationsDisplayed = function(firstSelector, secondSelector, pageNum) {
 		var	selector = firstSelector + " " + secondSelector,
@@ -512,7 +521,7 @@ Known Issues (Updated 10/3/2015):
 					.siblings()
 						.find("input[name='page-num']"),
 				isNextClass = jq(this).hasClass("next"), 
-				newPageNum = parseInt(userTextInput.val()) + (isNextClass || -1);
+				pageNum, newPageNum;
 
 			event.preventDefault(); 
 			
@@ -520,13 +529,16 @@ Known Issues (Updated 10/3/2015):
 			if(jq(this).parent().siblings().is("#favorites-page-num-form")) {
 				numOfRecs = jq("#favorites-section .type-selected").length;
 				maxNumRecsSeen = maxFavsSelected; 
+				pageNum = validFavPageNum;
 			}
 			else {
 				numOfRecs = jq("#recommendations-section .result").length;
 				maxNumRecsSeen = parseInt(jq("#recommendations-section select[name='results-max-seen-select']").val());
+				pageNum = validRecPageNum;
 			}
 			
 			maxNumPages = Math.ceil(numOfRecs / maxNumRecsSeen);
+			newPageNum = pageNum + (isNextClass || -1); // decides whether to increment or decrement by one 
 			
 			if(isPageNumValid(newPageNum)) {
 				userTextInput.val(newPageNum); 
@@ -534,16 +546,18 @@ Known Issues (Updated 10/3/2015):
 			}
 		});
 	};
+
 	
 	/* This function is responsible for setting up an event handler that allows the user to navigate recommendations
 	 by entering a valid page number. It also acts as the central hub for any navigation through recommendations. */ 
 	var allowTexNav = function() {
 		jq("#favorites-page-num-form, #results-page-num-form").submit(function(event) {
-			var pageNum = jq(this).find("input[name='page-num']").val(),
-				previousClass = jq(this).siblings().find(".previous"),
+			var previousClass = jq(this).siblings().find(".previous"),
 				nextClass = jq(this).siblings().find(".next"),
 				retrievalInfo1 = jq(this).parents("section").find(".retrieval-info p:nth-child(1) span"),
 				queryName = jq("#search-form").find("input[name='Name']").val(), 
+				formIdName = jq(this).attr("id"),
+				pageNum = jq(this).find("input[name='page-num']").val(),
 				firstSelector = "#" + jq(this).parents("section").attr("id"),
 				secondSelector;
 				
@@ -560,7 +574,6 @@ Known Issues (Updated 10/3/2015):
 				retrievalInfo1.last().text(queryName);
 			}
 			
-			
 			numOfRecs = jq(firstSelector + " " + secondSelector).length;
 			maxNumPages = Math.ceil(numOfRecs / maxNumRecsSeen);
 			
@@ -570,19 +583,14 @@ Known Issues (Updated 10/3/2015):
 			jq(this).parent().show()
 			
 			if(isPageNumValid(pageNum)) {
+				setValidPageNum(formIdName, pageNum); 
 				changeRecommendationsDisplayed(firstSelector, secondSelector, pageNum); 
-				updatePagerStatus(nextClass, parseInt(pageNum), maxNumPages);
-				updatePagerStatus(previousClass, parseInt(pageNum), maxNumPages);
+				updatePagerStatus(nextClass, parseInt(pageNum));
+				updatePagerStatus(previousClass, parseInt(pageNum));
 			}
-			else if(numOfRecs){
-				jq(this).find("input[name='page-num']").val(1);
-				jq(this).trigger("submit"); 
-			}	
-			else{
+			else if(!numOfRecs) {
 				jq(this).parent().hide();
 			}
-
-
 		});
 	};
 
@@ -695,10 +703,10 @@ Known Issues (Updated 10/3/2015):
 		jq("#favorites-section").on("click", "button[name='Delete']", function() {
 			var identifier = getRecNameOrType(this, "getName"), 
 				type = getRecNameOrType(this, "getType"),
-				currPageNum = parseInt(jq("#favorites-page-num-form").find("input[name='page-num']").val()),
-				maxPages = parseInt(jq("#favorites-page-num-form").find("input[name='max-num-pages']").val()),
-				isMultipleOfMax = (numOfRecs - 1) % maxFavsSelected === 0,
-				isAtPageLimit = currPageNum === maxPages;
+				maxPages = parseInt(jq("#favorites-page-num-form").find(".max-num-pages").text()),
+				numOfFavs = parseInt(jq("#favorites-section .retrieval-info p:first-child").find("span").text()) - 1, // because a favorite is deleted
+				isMultipleOfMax = numOfFavs % maxFavsSelected === 0,
+				isAtPageLimit = validFavPageNum === maxPages;
 				
 			// Delete the recommendation and its id and log the event. 
 			favIdsObj.deleteFav(this.parentElement.getAttribute("id"));
@@ -709,7 +717,7 @@ Known Issues (Updated 10/3/2015):
 			filterHistory();
 			
 			// Decide whether the user should be shown the previous page because no results are on the current page. 
-			if(isMultipleOfMax && isAtPageLimit) {
+			if(isMultipleOfMax && isAtPageLimit && numOfFavs) {
 				jq("#favorites-section .previous").trigger("click");
 			}
 			else { // just update information since the user has results on the current page. 
