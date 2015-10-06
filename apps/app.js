@@ -10,6 +10,9 @@ Content:
 		- Functions for showing & allowing transitions from one menu item (or section) to another
 		- Function for setting event handlers
 	- Showing help
+	- History section
+		- DOM traversal/manipulation helper functions for logging and filtering activities
+		- Event handlers for deleting and selecting history types
 	- Getting data from API and showing it
 		- Helper logic function 
 		- DOM traversal/manipulation helper functions
@@ -22,7 +25,6 @@ Content:
 		- Helper logic functions
 		- Helper DOM manipulation functions
 		- Event handlers for navigation through Bootstrap pagers and entering page number
-	- History section
 	- Favoriting a recommendation and deleting that recommendation
 		- DOM traversal/manipulation helper function
 		- Event handlers for favoriting (or deleting favorite) recommendations
@@ -37,7 +39,7 @@ Known Issues (Updated 10/5/2015):
 	// ############################################ Global variables #################################
 	var jq = $.noConflict(),
 		favIdsObj = new FavIds(),
-		recommendationTypesObj = { // used as a mapping between recommendation type and its HTML class 
+		recommendationTypesObj = { // used as a mapping between the options for recommendation type selected and its HTML class name
 			author: "author", 
 			book: "book",
 			game: "game", 
@@ -45,12 +47,12 @@ Known Issues (Updated 10/5/2015):
 			music: "music", 
 			show: "tv-show",
 		},
-		activityHistoryTypesObj = { // used as a mapping between history activity type and its HTML class
-			deletes: "deletes-history",
-			favorites: "favorites-history",
-			searches: "searches-history"
+		activityHistoryTypesObj = { // used as a mapping between the options for history activity type selected and its HTML class name
+			deletes: "deletes-history", 
+			favorites: "favorites-history", 
+			searches: "searches-history" 
 		},
-		typeOfSortFavs, typeOfFilterFavs, numOfRecs, maxNumPages, maxNumRecsSeen, maxFavsSelected, validRecPageNum, validFavPageNum;
+		typeOfSortFavs, typeOfFilterFavs, numOfRecs, maxNumPages, maxNumRecsSeen, maxFavsSelected, validRecsPageNum, validFavsPageNum;
 
 
 	//	####################################### Section and recommendation navigations ############################# 
@@ -139,6 +141,23 @@ Known Issues (Updated 10/5/2015):
 		});
 	};
 	
+	// This function sets up event handlers to allow webpage navigation by scrolling to the top of the window. 
+	var allowScrollNavigation = function() {
+		jq(window).scroll(function() {
+			if(jq(this).scrollTop() > 200) {
+				jq("#scroll-statement").show(); 
+			}
+			else{
+				jq("#scroll-statement").hide(); 
+			}
+		}); 
+		
+		jq("#scroll-statement").click(function() {
+			jq(window).scrollTop(0); 
+		});
+		
+	};
+	
 	
 	// ###################################### Showing help ################################################
 	
@@ -153,6 +172,97 @@ Known Issues (Updated 10/5/2015):
 			jq(this).parent().hide();
 		})
 	};
+	
+	
+		// ############################################ History section #########################################
+	// ---------------- DOM traversal/manipulation helper functions for logging and filtering activities ---------------------
+	
+	/*	The function requires three string arguments: activityType (which is the type of activity), activityDescription
+		(which is the description of the activity), activityHistoryType (which is a name for a activityHistoryTypesObj's property).
+		This function places information given in the DOM under id #activity-list with a class based on activityHistoryType. 
+		The time the function was called under the is also shown. */
+	var logHistory = function(activityType, activityDescription, activityHistoryType) {
+		var activityDom = jq(".template .activity").clone(),
+			activityTime = new Date(), 
+			className = activityHistoryTypesObj[activityHistoryType];
+			
+		activityDom.find(".time-of-activity").text(activityTime);
+		activityDom.find(".type-of-activity").text(activityType);
+		activityDom.find(".description-of-activity").text(activityDescription); 
+		
+		if(activityHistoryTypesObj.hasOwnProperty(activityHistoryType)) {
+			activityDom.addClass(className);
+		}
+		else {
+			console.log("Oops! Something went wrong when trying to add a class in function logHistory.")
+		}
+	
+		jq("#activity-list").append(activityDom); 
+		showHistorySectionStats(); 
+	};
+
+	// Allow users to select between various types of history activities.
+	var filterHistory = function() {
+		var activityFilter = jq("select[name='activity-filter']").val(), 
+			selector;
+		if(activityFilter === "all activities") {
+			jq("#activity-list").children().show();
+		}
+		else {
+			selector = "." + activityHistoryTypesObj[activityFilter];
+			jq("#activity-list").find(selector).show()
+			jq("#activity-list").children()
+				.not(selector)
+					.hide();
+		}
+	};
+	
+	/* This function's role is to display counts for different types activities to the user. */
+	var showHistorySectionStats = function() {
+		var stats = jq("#history-section .stats"),
+			helperFunc = function(nthChild, activityFilter) {
+				var selector = "li:nth-child( " + nthChild + " ) span",
+					className = activityHistoryTypesObj[activityFilter],
+					countOfType = jq("#activity-list").find("." + className).length;
+				
+				stats.find(selector).html(countOfType);
+			}; 
+		
+		stats.find("li:nth-child(1) span").html(jq("#activity-list .activity").length);
+		helperFunc(2, "deletes");
+		helperFunc(3, "favorites");
+		helperFunc(4, "searches");
+	};
+	
+	// ------------------------------------------ Event handlers for deleting and selecting history types ----------------------------- 
+	
+	/* Allow users to delete one item from their activity history or a particular type of activity 
+	from their activity history by setting up event handlers. */ 
+	var allowDeleteHistory = function() {
+		jq("#activity-list").on("click", ".activity button", function() {
+			jq(this).parent().remove(); 	
+			showHistorySectionStats();
+		});
+		
+		jq("#delete-activities-button").click(function() {
+			var activityFilter = jq(this).siblings("select[name='activity-filter']").val();
+			
+			if(activityFilter === "all activities") {
+				jq("#activity-list").html("");
+			}
+			else {
+				jq("#activity-list").find("." + activityHistoryTypesObj[activityFilter]).remove(); 
+			}
+			showHistorySectionStats(); 
+		});
+	}; 
+	
+	// This function sets up an event handler to allow the user to see different activities types from their history.
+	var allowSelectActivityType = function() {
+		jq("#activity-filter").change(function() {
+			filterHistory();
+		});
+	}; 
 	
 	
 	// ################################## Getting data from API and showing it ##########################
@@ -172,7 +282,7 @@ Known Issues (Updated 10/5/2015):
 	/*	The function requires two string arguments: the first is "identifier," which is the name of a
 	recommendation, and the second argument is className, which is related to the recommendation's type. 
 	If possible, this function determines & returns a uniquely valid id for the recommendation. Otherwise, null is returned. */
-	var returnUniqueFavId = function(identifier, className) {
+	var getUniqueFavId = function(identifier, className) {
 		var newIdentifier =  identifier.toLowerCase().replace(/[^0-9a-z]/g, "-"),
 			selector = "#favorites-section " + "#" + newIdentifier,
 			count = 0, 
@@ -234,7 +344,7 @@ Known Issues (Updated 10/5/2015):
 		var recDom = jq(".template .result").clone();
 		
 		recDom.find(".result-type").text(type);
-		recDom.find(".result-name").text(name);
+		recDom.find(".result-name").text(name.trim());
 		recDom.find(".result-description").text(description);
 		recDom.find(".yt-url").attr("href", ytUrl);
 		recDom.find(".wiki-url").attr("href", wikiUrl);
@@ -242,7 +352,7 @@ Known Issues (Updated 10/5/2015):
 		handleBrokenLinks(recDom, wikiUrl, ytUrl); 
 
 		
-		if(returnUniqueFavId(name, recommendationTypesObj[type]) === null) {
+		if(getUniqueFavId(name, recommendationTypesObj[type]) === null) {
 			showFavFeedback(recDom.find("button[name='Favorite']")); 
 		}
 		
@@ -398,7 +508,6 @@ Known Issues (Updated 10/5/2015):
 			// Let the user know what's going on. 
 			jq(this).find("input[type='submit']").val("Processing"); 
 			
-			
 			// Get the settings for how the viewer wants to sort, filter, and view the number of recommendations. 
 			typeOfSortFavs = jq(this).find("select[name='favs-sort-select']").val();
 			typeOfFilterFavs = jq(this).find("select[name='favs-filter-select']").val();
@@ -412,6 +521,7 @@ Known Issues (Updated 10/5/2015):
 			favoritesPageNumForm.trigger("submit"); // to update num of recommendations per page
 			
 			jq(this).find("input[type='submit']").val("Submit");
+			jq(this).hide(); 
 		});
 	}; 
 	
@@ -424,19 +534,31 @@ Known Issues (Updated 10/5/2015):
 	var isPageNumValid = function(pageNum) {
 		var pageNumInt = parseInt(pageNum); 
 		
-		doesPageNumRepresentInt = pageNumInt == pageNum &&  !isNaN(pageNumInt);
+		doesPageNumRepresentInt = pageNumInt == pageNum && !isNaN(pageNumInt);
 		isPageNumInValidInterval = pageNumInt > 0 && pageNumInt <= maxNumPages;
 		return doesPageNumRepresentInt && isPageNumInValidInterval; 
 	}
 
-	/* This function requires two arguments: formIdName and pageNum (which can be a string or integer
-	representing a valid page number for the particular form). */
+	/* This function requires two arguments: formIdName (a string) and pageNum (which can be a string or integer
+	representing a valid page number for the particular form). This function is responsible for setting
+	the valid page number that corresponds to the form formIdName. */
 	var setValidPageNum = function(formIdName, pageNum) {
 		if(formIdName === "favorites-page-num-form" ) {
-			validFavPageNum = parseInt(pageNum);
+			validFavsPageNum = parseInt(pageNum);
 		}
 		else if (formIdName === "results-page-num-form") {
-			validRecPageNum = parseInt(pageNum);
+			validRecsPageNum = parseInt(pageNum);
+		}
+	};
+	
+	/* This function requires one string argument: formIdName.  This function is responsible for getting the valid page
+	number that corresponds to the form formIdName. */
+	var getValidPageNum = function(formIdName) {
+		if(formIdName === "favorites-page-num-form" ) {
+			return validFavsPageNum;
+		}
+		else if (formIdName === "results-page-num-form") {
+			return validRecsPageNum;
 		}
 	};
 	
@@ -474,13 +596,14 @@ Known Issues (Updated 10/5/2015):
 			retrievalInfo2.first().text(startingIndex+1);
 			retrievalInfo2.last().text(endingIndex+1);
 			retrievalInfo2.parent().show();
-			retrievalInfo2.parents(".retrieval-info").show(); 
+			
 		}
 		else if(!numOfRecs) { // hide the paragraph element when there are no recommendations to be displayed
 			retrievalInfo2.first().text(0);
 			retrievalInfo2.last().text(0);
 			retrievalInfo2.parent().hide(); 
 		}
+		retrievalInfo2.parents(".retrieval-info").show(); 
 	};
 	
 	/* This function requires three string arguments: firstSelector (which is the id selector), 
@@ -521,7 +644,8 @@ Known Issues (Updated 10/5/2015):
 					.siblings()
 						.find("input[name='page-num']"),
 				isNextClass = jq(this).hasClass("next"), 
-				pageNum, newPageNum;
+				pageNum = getValidPageNum(jq(this).parent().siblings("form").attr("id")), 
+				newPageNum = pageNum + (isNextClass || -1); // decides whether to increment or decrement by one 
 
 			event.preventDefault(); 
 			
@@ -529,17 +653,14 @@ Known Issues (Updated 10/5/2015):
 			if(jq(this).parent().siblings().is("#favorites-page-num-form")) {
 				numOfRecs = jq("#favorites-section .type-selected").length;
 				maxNumRecsSeen = maxFavsSelected; 
-				pageNum = validFavPageNum;
 			}
 			else {
 				numOfRecs = jq("#recommendations-section .result").length;
 				maxNumRecsSeen = parseInt(jq("#recommendations-section select[name='results-max-seen-select']").val());
-				pageNum = validRecPageNum;
 			}
-			
+
 			maxNumPages = Math.ceil(numOfRecs / maxNumRecsSeen);
-			newPageNum = pageNum + (isNextClass || -1); // decides whether to increment or decrement by one 
-			
+	
 			if(isPageNumValid(newPageNum)) {
 				userTextInput.val(newPageNum); 
 				userTextInput.parent().trigger("submit"); 
@@ -550,7 +671,7 @@ Known Issues (Updated 10/5/2015):
 	
 	/* This function is responsible for setting up an event handler that allows the user to navigate recommendations
 	 by entering a valid page number. It also acts as the central hub for any navigation through recommendations. */ 
-	var allowTexNav = function() {
+	var allowTextNav = function() {
 		jq("#favorites-page-num-form, #results-page-num-form").submit(function(event) {
 			var previousClass = jq(this).siblings().find(".previous"),
 				nextClass = jq(this).siblings().find(".next"),
@@ -588,60 +709,23 @@ Known Issues (Updated 10/5/2015):
 				updatePagerStatus(nextClass, parseInt(pageNum));
 				updatePagerStatus(previousClass, parseInt(pageNum));
 			}
-			else if(!numOfRecs) {
+			else if(!numOfRecs) { // do not show form when there are no recommendations 
 				jq(this).parent().hide();
+			}
+			else { // clean up text input if user enters invalid page number
+				jq(this).find("input[name='page-num']").val(getValidPageNum(formIdName)); 
 			}
 		});
 	};
-
-
-	// ############################################ History section ####################################
-	
-		/*	The function requires three string arguments: activityType (which is the type of activity), activityDescription
-		(which is the description of the activity), activityHistoryType (which is a name for a activityHistoryTypesObj's property).
-		This function places information given in the DOM under id #activity-list with a class based on activityHistoryType. 
-		The time the function was called under the is also shown. */
-	var logHistory = function(activityType, activityDescription, activityHistoryType) {
-		var activityDom = jq(".template .activity").clone(),
-			activityTime = new Date();
-			
-		activityDom.find(".time-of-activity").text(activityTime);
-		activityDom.find(".type-of-activity").text(activityType);
-		activityDom.find(".description-of-activity").text(activityDescription); 
 		
-		if(activityHistoryTypesObj.hasOwnProperty(activityHistoryType)) {
-			activityDom.addClass(activityHistoryTypesObj[activityHistoryType]);
-		}
-		else {
-			console.log("Oops! Something went wrong when trying to add a class in function logHistory.")
-		}
-		
-		jq("#activity-list").append(activityDom); 
-	};
-
-	// Allow users to select between various types of history activities.
-	var filterHistory = function() {
-		var filterType = jq("select[name='activity-filter']").val(), 
-			selector;
-		if(filterType === "all activities") {
-			jq("#activity-list").children().show();
-		}
-		else {
-			selector = "." + activityHistoryTypesObj[filterType];
-			jq("#activity-list").find(selector).show()
-			jq("#activity-list").children()
-				.not(selector)
-					.hide();
-		}
-	};
-
-	// Allow the user to delete a listing of his/her activity history
-	var allowUserDeleteHistory = function() {
-		jq("#activity-list").on("click", ".activity button", function() {
-			jq(this).parent().remove(); 
+	// This function sets up an event handler to allow users to change max results seen per page in the recommendations section.
+	var allowSetMaxResults = function() {
+		jq("#recommendations-section select[name='results-max-seen-select']").change(function() {
+			jq("#results-page-num-form").find("input[name='page-num']").val(1); 
+			jq("#results-page-num-form").trigger("submit");
 		});
-	}; 
-	
+	};	
+		
 	
 	// ############################## Favoriting a recommendation and deleting that recommendation ###########################
 	// -------------------------------------------- DOM traversal helper function ------------------------------
@@ -669,7 +753,7 @@ Known Issues (Updated 10/5/2015):
 			var identifier = getRecNameOrType(this, "getName"),
 				type = getRecNameOrType(this, "getType"),
 				copyOfRec = jq(this).parent().clone(),
-				idName = returnUniqueFavId(identifier, recommendationTypesObj[type]);
+				idName = getUniqueFavId(identifier, recommendationTypesObj[type]);
 				
 			// The recommendation's id will come from its name and one of its classes will come from its type.
 			copyOfRec.attr("id", idName)
@@ -687,9 +771,9 @@ Known Issues (Updated 10/5/2015):
 			// If the user clicked different tabs of the result, ensure that the first tab is the only active tab. 
 			jq("#" + idName).find("ul.result-nav li:nth-child(1)").trigger("click"); 
 			
-			// Update everythin now that the user has added a favorite item. 
-			sortFavorites();
-			filterFavorites();
+			// Update everything now that the user has added a favorite item. 
+			typeOfSortFavs === "added-descending" || sortFavorites(); // no need to call function when it will be sorted by default 
+			!typeOfFilterFavs.length || filterFavorites(); // no need to call the function when the recommendation will show up by default 
 			jq("#favorites-page-num-form").trigger("submit");
 			filterHistory();
 		
@@ -706,7 +790,7 @@ Known Issues (Updated 10/5/2015):
 				maxPages = parseInt(jq("#favorites-page-num-form").find(".max-num-pages").text()),
 				numOfFavs = parseInt(jq("#favorites-section .retrieval-info p:first-child").find("span").text()) - 1, // because a favorite is deleted
 				isMultipleOfMax = numOfFavs % maxFavsSelected === 0,
-				isAtPageLimit = validFavPageNum === maxPages;
+				isAtPageLimit = getValidPageNum("favorites-page-num-form") === maxPages;
 				
 			// Delete the recommendation and its id and log the event. 
 			favIdsObj.deleteFav(this.parentElement.getAttribute("id"));
@@ -727,6 +811,7 @@ Known Issues (Updated 10/5/2015):
 	};  
 
 
+
 	// #################################### jQuery ready method ###################################
 
 	jq(document).ready(function() {
@@ -739,19 +824,15 @@ Known Issues (Updated 10/5/2015):
 		allowSubmitQuery(); 
 		allowDisplaySettingsShown();
 		allowBackwardForwardNav();
-		allowTexNav(); 
+		allowTextNav(); 
 		allowSetDisplaySettings(); 
-		allowUserDeleteHistory(); 
+		allowDeleteHistory(); 
+		allowSelectActivityType();
 		allowHelpTextShown();
-		jq("#activity-filter").change(function() {
-			filterHistory();
-		});
-		jq("#recommendations-section select[name='results-max-seen-select']").change(function() {
-			jq("#results-page-num-form").find("input[name='page-num']").val(1); 
-			jq("#results-page-num-form").trigger("submit");
-		});
-		
-		// Initializing some of the global variables and display settings for favorite recommendations. 
+		allowSetMaxResults();
+		allowScrollNavigation(); 
+
+		// Initializing some of the global variables and set display settings for favorite recommendations. 
 		jq("#favs-settings-form").trigger("submit"); 
 	});
 })();

@@ -10,6 +10,7 @@
 		- Recommendations section styles
 		- Favorites section styles
 		- History section styles
+	- #scroll-statment
 	- Footer styles
 	- .template styles
 	- Media queries styles
@@ -34,7 +35,7 @@
 
 .close-button {
 	width: 3em; 
-	margin: 0em 0.2em 0.2em auto; 
+	margin: 0.2em 0.2em 0.2em auto; 
 	display: block; 
 	background-color: rgba(255, 0, 0, 0.5); 
 	color: white; 
@@ -258,19 +259,42 @@ section .retrieval-info {
 }
 
 
-/* ------------------ History section styles -------------- */ 
-li.activity {
+/* ------------------------------ History section styles ------------------------- */ 
+#activity-filter, 
+#delete-activities-button {
+	margin-bottom: 1em; 
+} 
+
+#history-section li.activity {
 	list-style-type: none; 
 	margin-bottom: 0.5em; 
 }
 
-li.activity:hover{
+#history-section li.activity:hover{
 	border: 1px dotted black; 
 }
 
-/* Footer styles */
+
+/* ------------------------------- #scroll-statement ------------------------------- */
+#scroll-statement {
+	border: 2px solid black;
+	width: 8em; 
+	margin: 1em auto; 
+	text-align: center; 
+}
+
+#scroll-statement a {
+	color: rgba(86,1,1,1);
+}
+
+#scroll-statement a:hover {
+	text-decoration: underline; 
+}
+
+
+/* ---------------------------------- Footer styles ------------------------------- */
 footer {
-	padding: 3em; 
+	padding: 1em 3em; 
 }
 
 

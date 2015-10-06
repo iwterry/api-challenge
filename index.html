@@ -119,9 +119,13 @@
 				<option value="50">50</option>
 			</select>
 			<div class="retrieval-info">
-				<p><span>0</span> result(s) retrieved for &quot;<span></span>&quot;.</p>
-				<p>Now showing recommendation(s) <span></span> through <span></span>.</p> 
-			</div>
+				<p><span>0</span> recommendation(s) retrieved for &quot;<span></span>&quot;.</p>
+				<p>Now viewing <span></span> of <span></span>.</p> 
+			</div>			
+			<hr>
+			<div class="results-container">			
+			</div> 
+			<hr>
 			<nav class="results-nav">
 				<form id="results-page-num-form">Page 
 					<input type="text" name="page-num" value="1"> of <span class="max-num-pages"></span>
@@ -132,9 +136,6 @@
 					<li class="next disabled"><a href="#">Next <span class="fa fa-arrow-right"></span> </a></li>
 				</ul>
 			</nav>
-			<hr>
-			<div class="results-container">			
-			</div> 
 		</section>
 		<!-------------- Favorites section --------->
 		<section id="favorites-section">
@@ -181,6 +182,14 @@
 				</select>
 				<input type="submit" value="Submit">
 			</form>
+			<div class="retrieval-info">
+				<p>You have <span>0</span> favorite recommendation(s) for the given filter choice.</p>
+				<p>Now viewing <span></span> of <span></span>.</p> 
+			</div>
+			<hr>
+			<div class="results-container">			
+			</div>
+			<hr>
 			<nav class="results-nav">						
 				<form id="favorites-page-num-form">Page 
 					<input type="text" name="page-num" value="1"> of <span class="max-num-pages"></span>
@@ -191,13 +200,6 @@
 					<li class="next disabled"><a href="#">Next <span class="fa fa-arrow-right"></span> </a></li>
 				</ul>
 			</nav>	
-			<div class="retrieval-info">
-				<p>Based on your choice of filtering, you have a total of <span>0</span> favorite recommendation(s).</p>
-				<p>Now showing favorite(s) <span></span> through <span></span>.</p> 
-			</div>
-			<hr>
-			<div class="results-container">			
-			</div>
 		</section> 
 		<!------------ History section ---------->
 		<section id="history-section">
@@ -211,6 +213,13 @@
 				each activity occurred is also presented. You can delete a listing by clicking the button with a trash can for that listing.
 				This section may help you to understand your behaviour or just to review what you have done on this webpage.</p>
 			</div>
+			<p>The following is a summary of your activities:</p>
+			<ul class="stats">
+				<li>All activities: <span>0</span></li>
+				<li>Recommendations deleted: <span>0</span></li>
+				<li>Recommendations favorited: <span>0</span></li>
+				<li>Recommendation searches: <span>0</span></li>
+			</ul>
 			<span>Activity type:</span>
 			<select name="activity-filter" id="activity-filter">
 				<option value="all activities">All Activities</option>
@@ -218,10 +227,12 @@
 				<option value="favorites">Recommendations Favorited</option>
 				<option value="searches">Recommendation Searches</option>
 			</select>
+			<button type="button" id="delete-activities-button">Delete <strong>any</strong> activities for the type selected</button
 			<hr>
 			<ul id="activity-list">
 			</ul>
 		</section>
+		<div id="scroll-statement" title="Scroll to top of page"><a href="#">Scroll to top</a></div>
 		<!---------------------------------------------------------- Footer of the webpage ------------------------------------------------>
 		<footer>
 			<hr>
@@ -266,7 +277,7 @@
 				</button>
 			</div>
 			<li class="activity">
-				<button type="button" name="remove"><span class="fa fa-trash"></span></button>
+				<button type="button" name="remove"><span class="fa fa-trash" type="Remove this activity"></span></button>
 				<strong>Time of Activity:</strong> <span class="time-of-activity"></span>,
 				<strong>Type of Activity:</strong> <span class="type-of-activity"></span>, 
 				<strong>Description of Activity:</strong> <span class="description-of-activity"></span>
