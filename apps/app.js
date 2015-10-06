@@ -413,6 +413,8 @@ Known Issues (Updated 10/5/2015):
 			success: function(data, textStatus, jqXHR) {
 				showData(data)
 				jq("#webpage-nav li.nav-menu-item3").trigger("click"); 
+				jq("#scroll-statement a").trigger("click");
+
 			}, 
 			timeout: 7000
 		});
@@ -667,6 +669,8 @@ Known Issues (Updated 10/5/2015):
 			if(isPageNumValid(newPageNum)) {
 				userTextInput.val(newPageNum); 
 				userTextInput.parent().trigger("submit"); 
+				jq("#scroll-statement a").trigger("click");
+
 			}
 		});
 	};
@@ -711,7 +715,6 @@ Known Issues (Updated 10/5/2015):
 				changeRecommendationsDisplayed(firstSelector, secondSelector, pageNum); 
 				updatePagerStatus(nextClass, parseInt(pageNum));
 				updatePagerStatus(previousClass, parseInt(pageNum));
-				jq("#scroll-statement a").trigger("click");
 			}
 			else if(!numOfRecs) { // do not show form when there are no recommendations 
 				jq(this).parent().hide();
