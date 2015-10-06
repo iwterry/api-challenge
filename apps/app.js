@@ -95,8 +95,10 @@ Known Issues (Updated 10/5/2015):
 		var fromSectionId = getHrefFromMenuItem(prevClickedMenuItem),
 			toSectionId = getHrefFromMenuItem(currClickedMenuItem);
 			
-		jq(fromSectionId).hide();
-		jq(toSectionId).show();
+		jq(fromSectionId).fadeOut().promise().done(function() { // possibly allow for smoother transition; 
+			jq(toSectionId).fadeIn();
+		});
+		
 	};
 
 	 /* Show transition of the display of one piece of information about a recommendation to another piece of 
@@ -152,7 +154,8 @@ Known Issues (Updated 10/5/2015):
 			}
 		}); 
 		
-		jq("#scroll-statement").click(function() {
+		jq("#scroll-statement a").click(function(event) {
+			event.preventDefault(); 
 			jq(window).scrollTop(0); 
 		});
 		
@@ -708,6 +711,7 @@ Known Issues (Updated 10/5/2015):
 				changeRecommendationsDisplayed(firstSelector, secondSelector, pageNum); 
 				updatePagerStatus(nextClass, parseInt(pageNum));
 				updatePagerStatus(previousClass, parseInt(pageNum));
+				jq("#scroll-statement a").trigger("click");
 			}
 			else if(!numOfRecs) { // do not show form when there are no recommendations 
 				jq(this).parent().hide();
