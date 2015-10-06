@@ -10,7 +10,7 @@
 		- Recommendations section styles
 		- Favorites section styles
 		- History section styles
-	- #scroll-statment
+	- #scroll-statement
 	- Footer styles
 	- .template styles
 	- Media queries styles
@@ -19,7 +19,7 @@
 /* ------------------------------------------------------------- Common styles ----------------------------------------------------- */
 #search-section, #recommendations-section, #favorites-section, #history-section, 
 #favs-settings-form, .result-description, .result-links, .section-help, .results-nav,
-.retrieval-info, .result button[name='Delete'] { /* These will change according to the user with JavaScript */
+.retrieval-info, .result button[name='Delete'], #scroll-statement { /* These will change according to the user with JavaScript */
 	display: none; 
 }
 
