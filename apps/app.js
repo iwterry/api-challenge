@@ -30,8 +30,8 @@ Content:
 		- Event handlers for favoriting (or deleting favorite) recommendations
 	- jQuery ready method	
 
-Known Issues (Updated 10/5/2015): 
-	-	
+Known Issues (Updated 10/7/2015): 
+	- None	
 */
 	
 
@@ -365,14 +365,10 @@ Known Issues (Updated 10/5/2015):
 	/* 	This function requires one argument, the JSON object returned from the TasteKid API. This function will 
 	display the data to the user. */ 
 	var showData = function(response) {	
-		var ResultsPageNumForm = jq("#results-page-num-form");
-		
 		jq.each(response.Similar.Results, function(index, result) {
 			// display a recommendation to the user
 			showRec(result.Name, result.Type, result.wTeaser, result.wUrl, result.yUrl); 
 		});
-		ResultsPageNumForm.find("input[name='page-num']").val(1);
-		ResultsPageNumForm.trigger("submit");
 	};
 	
 	// --------------------------------------- Function for requesting data -----------------------------------------
@@ -388,7 +384,8 @@ Known Issues (Updated 10/5/2015):
 				limit: maxNumResults,
 				k: "162479-Recommen-P42FZ5V3"
 			},
-			searchButton = jq("#search-form").find("button");
+			searchButton = jq("#search-form").find("button"),
+			ResultsPageNumForm = jq("#results-page-num-form");
 			
 		/* 	The default case of the API is to return all types of recommendations. Property 'type' only needs to be added to 
 		queryStringObj if the user wants a particular type of recommendation returned. */
@@ -413,6 +410,9 @@ Known Issues (Updated 10/5/2015):
 			success: function(data, textStatus, jqXHR) {
 				showData(data)
 				jq("#webpage-nav li.nav-menu-item3").trigger("click"); 
+				ResultsPageNumForm.find("input[name='page-num']").val(1);
+				setValidPageNum("results-page-num-form", 1);
+				ResultsPageNumForm.trigger("submit");
 				jq("#scroll-statement a").trigger("click");
 
 			}, 
@@ -520,6 +520,7 @@ Known Issues (Updated 10/5/2015):
 			
 			// Should be on first page after changing settings. 
 			favoritesPageNumForm.find("input[name='page-num']").val(1);
+			setValidPageNum("favorites-page-num-form", 1);
 			
 			sortFavorites(); 
 			filterFavorites(); 
@@ -669,7 +670,7 @@ Known Issues (Updated 10/5/2015):
 			if(isPageNumValid(newPageNum)) {
 				userTextInput.val(newPageNum); 
 				userTextInput.parent().trigger("submit"); 
-				jq("#scroll-statement a").trigger("click");
+				//jq("#scroll-statement a").trigger("click");
 
 			}
 		});
@@ -711,6 +712,7 @@ Known Issues (Updated 10/5/2015):
 			jq(this).parent().show()
 			
 			if(isPageNumValid(pageNum)) {
+				getValidPageNum(formIdName) === parseInt(pageNum) || jq("#scroll-statement a").trigger("click"); 
 				setValidPageNum(formIdName, pageNum); 
 				changeRecommendationsDisplayed(firstSelector, secondSelector, pageNum); 
 				updatePagerStatus(nextClass, parseInt(pageNum));
