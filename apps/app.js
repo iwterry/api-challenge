@@ -377,7 +377,7 @@ Known Issues (Updated 10/7/2015):
 	recommendations returned. This function makes a GET request to TasteKid API for data. The data will eventually be displayed to 
 	the user. */ 
 	var requestDataFromTk = function(userQuery, maxNumResults, returnType) {
-		var endPoint = "https://www.tastekid.com/api/similar",
+		var endPoint = "https://tastedive.com/api/similar",
 			queryStringObj = {
 				q: userQuery,
 				info: 1,
